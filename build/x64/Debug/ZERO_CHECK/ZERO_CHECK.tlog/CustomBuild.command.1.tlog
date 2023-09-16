@@ -1,0 +1,10 @@
+^C:\MOSTAFA\CODE\C++\MAIN\FILES\TESTFILES\PARKOURGAME\BUILD\CMAKEFILES\EEC6699F09F477C4E86990D2E68B2B9C\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Mostafa/Code/C++/main/Files/testFiles/ParkourGame -BC:/Mostafa/Code/C++/main/Files/testFiles/ParkourGame/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Mostafa/Code/C++/main/Files/testFiles/ParkourGame/build/parkour.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

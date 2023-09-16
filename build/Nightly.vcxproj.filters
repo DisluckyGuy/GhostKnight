@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Mostafa\Code\C++\main\Files\testFiles\Parkour game\build\CMakeFiles\2ae3c2107bfea57f8e72d814b7c4e27c\Nightly.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Mostafa\Code\C++\main\Files\testFiles\Parkour game\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Mostafa\Code\C++\main\Files\testFiles\Parkour game\build\CMakeFiles\Nightly" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{C61648EA-DC86-3354-9D87-B4152E2A7897}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

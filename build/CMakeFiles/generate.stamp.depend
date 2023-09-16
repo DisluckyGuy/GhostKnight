@@ -1,0 +1,34 @@
+# CMake generation dependency list for this directory.
+C:/Mostafa/Code/C++/main/Files/testFiles/ParkourGame/CMakeLists.txt
+C:/Mostafa/Code/C++/main/Files/testFiles/ParkourGame/build/CMakeFiles/3.27.1/CMakeCCompiler.cmake
+C:/Mostafa/Code/C++/main/Files/testFiles/ParkourGame/build/CMakeFiles/3.27.1/CMakeCXXCompiler.cmake
+C:/Mostafa/Code/C++/main/Files/testFiles/ParkourGame/build/CMakeFiles/3.27.1/CMakeRCCompiler.cmake
+C:/Mostafa/Code/C++/main/Files/testFiles/ParkourGame/build/CMakeFiles/3.27.1/CMakeSystem.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/CMakeCInformation.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/CMakeCXXInformation.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/CMakeDependentOption.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/CMakeFindDependencyMacro.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/CMakeGenericSystem.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/CMakeRCInformation.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/Compiler/MSVC-C.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/Compiler/MSVC-CXX.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/Compiler/MSVC.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/Platform/Windows-Initialize.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/Platform/Windows-MSVC-C.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/Platform/Windows-MSVC-CXX.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/Platform/Windows-MSVC.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/Platform/Windows.cmake
+C:/Program Files/CMake/share/cmake-3.27/Modules/Platform/WindowsPaths.cmake
+C:/vcpkg/installed/x64-windows/share/sfml/SFMLConfig.cmake
+C:/vcpkg/installed/x64-windows/share/sfml/SFMLConfigDependencies.cmake
+C:/vcpkg/installed/x64-windows/share/sfml/SFMLConfigVersion.cmake
+C:/vcpkg/installed/x64-windows/share/sfml/SFMLSharedTargets-debug.cmake
+C:/vcpkg/installed/x64-windows/share/sfml/SFMLSharedTargets-release.cmake
+C:/vcpkg/installed/x64-windows/share/sfml/SFMLSharedTargets.cmake
+C:/vcpkg/scripts/buildsystems/vcpkg.cmake
