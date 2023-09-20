@@ -20,7 +20,7 @@ void Player::initWeapons()
 {
     weapon.first.setTexture(playerWeaponTexture);
     weapon.first.setTextureRect(IntRect(0,70,40,15));
-    weapon.first.setOrigin(5.f,9.f);
+    weapon.first.setOrigin(5.f,7.f);
     weapon.first.setPosition(130.f,100.f);
     weapon.second = Dropped;
 }

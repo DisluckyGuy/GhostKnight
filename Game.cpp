@@ -181,8 +181,16 @@ void Game::updateBullets()
     if (Mouse::isButtonPressed(Mouse::Left) && player.getWeaponState() == Held) {
         if (rate > fireRate) {
             bullet.setPosition(player.getWeapon()->getPosition());
-            velocity.x = static_cast<float>(bulletSpeed * -sin((angle + 90) * pi/180));
-            velocity.y = static_cast<float>(bulletSpeed * cos((angle + 90) * pi/180));
+            if (angle > 90 || angle < -90) {
+                velocity.x = static_cast<float>(bulletSpeed * -sin((angle + 90) * pi/180));
+                velocity.y = static_cast<float>(bulletSpeed * cos((angle + 90) * pi/180));
+            }
+            else if (angle >= -90 || angle <= 90) {
+                velocity.x = static_cast<float>(bulletSpeed * -sin((angle + 97) * pi/180)); 
+                velocity.y = static_cast<float>(bulletSpeed * cos((angle + 97) * pi/180));
+            }
+            //velocity.y = static_cast<float>(bulletSpeed * cos((angle + 95) * pi/180));
+            bullet.move(velocity.x, velocity.y);
             bulletPair.first = bullet;
             bulletPair.second = velocity;
             bullets.push_back(bulletPair); 
