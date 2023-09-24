@@ -7,6 +7,8 @@ void Player::initVariables()
         cout << "couldn't load player and weapon texture" << endl;
     }
     EHeld = false;
+    walkRate = 300;
+    leftDown = false;
 }
 
 void Player::initPlayer()
@@ -14,6 +16,15 @@ void Player::initPlayer()
     player.setTexture(playerWeaponTexture);
     player.setTextureRect(IntRect(0,0,30,40));
     player.setPosition(30.f,30.f);
+    legLeft.setTexture(playerWeaponTexture);
+    legLeft.setTextureRect(IntRect(80,70,4,7));
+    legLeft.setOrigin(1,2);
+    legLeft.setPosition(player.getPosition().x + 8, player.getPosition().y + 36);
+    legRight.setTexture(playerWeaponTexture);
+    legRight.setTextureRect(IntRect(84,70,4,7));
+    legRight.setOrigin(1,2);
+    legRight.setPosition(player.getPosition().x + 18 , player.getPosition().y + 36);
+    playerMoving = false;
 }
 
 void Player::initWeapons()
@@ -101,9 +112,40 @@ void Player::checkInputs()
     }
 }
 
+void Player::updateLegs()
+{
+    
+    walkTimer = walkClock.getElapsedTime();
+    if (Keyboard::isKeyPressed(Keyboard::W) || Keyboard::isKeyPressed(Keyboard::A) 
+    || Keyboard::isKeyPressed(Keyboard::S) || Keyboard::isKeyPressed(Keyboard::D)) {
+        playerMoving = true;
+        if (walkTimer.asMilliseconds() >= walkRate) {
+            if (leftDown) {
+                leftDown = false;
+            } else {
+                leftDown = true;
+            }
+            walkClock.restart();
+        }
+    } else {
+        playerMoving = false;
+    }
+    if (leftDown && playerMoving) {
+        legLeft.setPosition(player.getPosition().x + 9, player.getPosition().y + 34);
+        legRight.setPosition(player.getPosition().x + 18, player.getPosition().y + 36);
+    } else if (!leftDown && playerMoving) {
+        legLeft.setPosition(player.getPosition().x + 9, player.getPosition().y + 36);
+        legRight.setPosition(player.getPosition().x + 18, player.getPosition().y + 34);
+    } else {
+        legLeft.setPosition(player.getPosition().x + 9, player.getPosition().y + 36);
+        legRight.setPosition(player.getPosition().x + 18, player.getPosition().y + 36);
+    }
+}
+
 void Player::updatePlayer()
 {
     checkInputs();
+    updateLegs();
 }
 
 void Player::updateWeapons()
@@ -136,6 +178,8 @@ void Player::renderWeapons(RenderTarget* target)
 
 void Player::renderPlayer(RenderTarget* target)
 {
+    target->draw(legLeft);
+    target->draw(legRight);
     target->draw(player);
 }
 

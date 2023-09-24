@@ -22,12 +22,19 @@ private:
     
     float velocity;
     Texture playerWeaponTexture;
+    Sprite legLeft;
+    Sprite legRight;
     Sprite player;
     pair<Sprite,weaponState> weapon;
     array<bool,4> direction;
     array<Texture,3> leftWalkAnimation;
     array<Texture,3> rightWalkAnimation;
     bool EHeld;
+    Clock walkClock;
+    Time walkTimer;
+    int walkRate;
+    bool leftDown;
+    bool playerMoving;
 
     //private functions 
 
@@ -53,6 +60,7 @@ public:
     //public functions
 
     void checkInputs();
+    void updateLegs();
     void updatePlayer();
     void renderPlayer(RenderTarget* target);
     void updateWeapons();
