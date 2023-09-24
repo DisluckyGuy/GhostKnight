@@ -9,10 +9,11 @@ void Game::initVariables()
             mapStr[i] = "#                                                #";
         }
     }
-    if (!cellTexture.loadFromFile("C:/Mostafa/Code/C++/main/Files/testFiles/GhostKnight/build/Textures/gameTexture.png")) {
+    if (!cellTexture.loadFromFile("Textures/gameTexture.png")) {
         cout << "couldn't load player and weapon texture" << endl;
     }
     pi = static_cast<float>(2 * acos(0.0));
+    idleAnimation = false;
 }
 
 void Game::initViews()
@@ -106,6 +107,11 @@ void Game::updateMousePos()
     mousePosView = win->mapPixelToCoords(mousePosWin);
 }
 
+void Game::updateHealthGame()
+{
+    
+}
+
 void Game::checkCollisions()
 {
     float velocity = player.getVelocity();
@@ -151,15 +157,33 @@ void Game::updateWeaponsGame()
     if (player.getWeaponState() == Held) {
         player.getWeapon()->setRotation(static_cast<float>(angle + 180));
         if (angle <= 90.f && angle >= -90.f) {
-            player.getWeapon()->setTextureRect(IntRect(40,70,40,18));
+            player.getWeapon()->setTextureRect(IntRect(40,70,40,15));
         } else {
-            player.getWeapon()->setTextureRect(IntRect(0,70,40,18));
+            player.getWeapon()->setTextureRect(IntRect(0,70,40,15));
         }
     }
-    if (angle <= 90.f && angle >= -90.f) {
-        player.getPlayer()->setTextureRect(IntRect(30,0,30,40));
-    } else {
-        player.getPlayer()->setTextureRect(IntRect(0,0,30,40));
+   
+    idleTimer = idleClock.getElapsedTime();
+    if (idleAnimation) {
+        if (idleTimer.asMilliseconds() > 400) {
+            idleAnimation = false;
+            idleClock.restart();
+        } 
+        if (angle <= 90.f && angle >= -90.f) {
+            player.getPlayer()->setTextureRect(IntRect(30,0,30,40));
+        } else {
+            player.getPlayer()->setTextureRect(IntRect(0,0,30,40));
+        }
+    } else if (!idleAnimation) {
+        if (idleTimer.asMilliseconds() > 400) {
+            idleAnimation = true;
+            idleClock.restart();
+        }
+        if (angle <= 90.f && angle >= -90.f) {
+            player.getPlayer()->setTextureRect(IntRect(90,0,30,40));
+        } else {
+            player.getPlayer()->setTextureRect(IntRect(60,0,30,40));
+        }
     }
 }
 
@@ -203,8 +227,10 @@ void Game::updateBullets()
     for (int i = 0; i < bullets.size(); i++) {
         for (mapRow &j : map) {
            for (mapPair &k : j) {
-                if (bullets[i].first.getGlobalBounds().intersects(k.first.getGlobalBounds()) && k.second == Wall) {
-                    bullets.erase(bullets.begin() + i);
+                if ( bullets[i].first.getGlobalBounds().intersects(k.first.getGlobalBounds()) && k.second == Wall) {
+                    if (bullets.size() > 0) {
+                        bullets.erase(bullets.begin());
+                    }
                 }
             }
         }
@@ -221,8 +247,8 @@ void Game::renderBullets()
 void Game::update()
 {
     updateMousePos();
-    player.update();
     checkCollisions();
+    player.update();
     updateViews();
     setAngleAndSlope();
     updateWeaponsGame();

@@ -25,10 +25,21 @@ private:
     Sprite legLeft;
     Sprite legRight;
     Sprite player;
+    int health;
+    int shield;
+    Sprite healthBar;
+    Sprite shieldBar;
+    Vector2i healthPos;
+    Vector2i shieldPos;
+    Vector2i healthPosWin;
+    RectangleShape healthAmount;
+    RectangleShape shieldAmount;
     pair<Sprite,weaponState> weapon;
     array<bool,4> direction;
     array<Texture,3> leftWalkAnimation;
     array<Texture,3> rightWalkAnimation;
+    vector<RectangleShape> healthRects;
+    vector<RectangleShape> shieldRects;
     bool EHeld;
     Clock walkClock;
     Time walkTimer;
@@ -39,6 +50,7 @@ private:
     //private functions 
 
     void initVariables();
+    void initHealth();
     void initPlayer();
     void initWeapons();
 
@@ -63,6 +75,8 @@ public:
     void updateLegs();
     void updatePlayer();
     void renderPlayer(RenderTarget* target);
+    void updateHealth();
+    void renderHealth(RenderTarget* target);
     void updateWeapons();
     void renderWeapons(RenderTarget* target);
 

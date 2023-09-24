@@ -46,7 +46,9 @@ private:
     float bulletSpeed;
     Clock fireRateClock;
     Time fireRateTimer;
-
+    Clock idleClock;
+    Time idleTimer;
+    bool idleAnimation;
     //private functions
     
     void initVariables();
@@ -76,6 +78,7 @@ public:
 
     void updateViews();
     void updateMousePos();
+    void updateHealthGame();
     void checkCollisions();
     void setAngleAndSlope();
     void updateWeaponsGame();
