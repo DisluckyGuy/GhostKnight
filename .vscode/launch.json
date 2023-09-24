@@ -8,7 +8,7 @@
         "name": "cl.exe - Build and debug active file",
         "type": "cppvsdbg",
         "request": "launch",
-        "program": "${workspaceFolder}/build/Debug/parkour.exe",
+        "program": "${workspaceFolder}/build/Debug/ghostKnight.exe",
         "args": [],
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}",
