@@ -1,4 +1,4 @@
-# Install script for directory: C:/Mostafa/Code/C++/main/Files/testFiles/ParkourGame
+# Install script for directory: C:/Mostafa/Code/C++/main/Files/testFiles/GhostKnight
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Mostafa/Code/C++/main/Files/testFiles/ParkourGame/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Mostafa/Code/C++/main/Files/testFiles/GhostKnight/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

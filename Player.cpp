@@ -3,7 +3,7 @@
 void Player::initVariables()
 {
     velocity = 2.f;
-    if (!playerWeaponTexture.loadFromFile("C:/Mostafa/Code/C++/main/Files/testFiles/ParkourGame/gameTexture.png")) {
+    if (!playerWeaponTexture.loadFromFile("C:/Mostafa/Code/C++/main/Files/testFiles/GhostKnight/build/Textures/gameTexture.png")) {
         cout << "couldn't load player and weapon texture" << endl;
     }
     EHeld = false;

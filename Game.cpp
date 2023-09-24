@@ -9,7 +9,7 @@ void Game::initVariables()
             mapStr[i] = "#                                                #";
         }
     }
-    if (!cellTexture.loadFromFile("C:/Mostafa/Code/C++/main/Files/testFiles/ParkourGame/gameTexture.png")) {
+    if (!cellTexture.loadFromFile("C:/Mostafa/Code/C++/main/Files/testFiles/GhostKnight/build/Textures/gameTexture.png")) {
         cout << "couldn't load player and weapon texture" << endl;
     }
     pi = static_cast<float>(2 * acos(0.0));
