@@ -1,3 +1,0 @@
-C:/Mostafa/Code/C++/main/Files/testFiles/GhostKnight/build/CMakeFiles/ghostKnight.dir
-C:/Mostafa/Code/C++/main/Files/testFiles/GhostKnight/build/CMakeFiles/ALL_BUILD.dir
-C:/Mostafa/Code/C++/main/Files/testFiles/GhostKnight/build/CMakeFiles/ZERO_CHECK.dir
