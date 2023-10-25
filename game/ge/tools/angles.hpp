@@ -23,9 +23,9 @@ namespace ge
             return angle;
         }
 
-        inline float findAngle(sf::Vector2f &v1, sf::Vector2f &v2) {
-            float distX = std::abs(v2.x - v1.x);
-            float distY = std::abs(v2.y - v1.y);
+        inline float findAngle(sf::Vector2f &v1, sf::Vector2f *v2) {
+            float distX = std::abs(v2->x - v1.x);
+            float distY = std::abs(v2->y - v1.y);
             float angle = atan2f(distY, distX) * 180/Pi;
             return angle;
         }

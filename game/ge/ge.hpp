@@ -68,4 +68,15 @@ namespace ge {
             data->win.display();
         }
     } 
+
+    inline sf::Vector2i getMousePosWin(Data &data) {
+        sf::Vector2i mousePosWin = sf::Mouse::getPosition(data.win);
+        return mousePosWin;
+    }
+
+    inline sf::Vector2f getMousePosView(Data* data) {
+        sf::Vector2i mousePosWin = sf::Mouse::getPosition(data->win);
+        sf::Vector2f mousePosView = data->win.mapPixelToCoords(mousePosWin);
+        return mousePosView;
+    }
 }

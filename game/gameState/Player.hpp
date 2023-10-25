@@ -22,7 +22,7 @@ private:
 
     
     ge::Data* data;
-    //Map map = Map(data);
+    Map* map;
     float velocity;
     sf::Texture playerWeaponTexture;
     sf::Sprite legLeft;
@@ -61,7 +61,7 @@ public:
 
     //constructor and destructor
 
-    Player(ge::Data* data);
+    Player(ge::Data* data, Map* map);
     ~Player();
 
     //accesssors
@@ -74,6 +74,7 @@ public:
 
     //public functions
 
+    void checkCollisions();
     void updateDirection();
     void checkInputs();
     void updateLegs();

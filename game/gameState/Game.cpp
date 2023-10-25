@@ -44,21 +44,14 @@ void Game::updateHealthGame()
 
 void Game::checkCollisions()
 {
-    float velocity = player.getVelocity();
-    sf::Sprite* playerPtr = player.getPlayer(); 
-    for (mapRow &i : *map.getMap()) {
-        for (mapPair &j : i) {
-            if (j.second == cellType::Wall) {
-                ge::tools::isColliding(*playerPtr, j.first, velocity);
-            }
-        }
-    }
+
 }
 
 void Game::updateWeaponsGame()
 {
     sf::Sprite* weapon = player.getWeapon();
-    float angle = ge::tools::findAngle(*player.getPlayer(),map.mousePosView);
+    sf::Vector2f MPV = ge::getMousePosView(data);
+    float angle = ge::tools::findAngle(*player.getPlayer(), MPV);
     if (player.getWeaponState() == Held) {
         player.getWeapon()->setRotation(angle);
         if (angle <= 90.f && angle >= -90.f) {
@@ -92,7 +85,6 @@ void Game::update()
 {
     map.update();
     map.updateMousePos();
-    checkCollisions();
     player.update();
     updateViews();
     updateWeaponsGame();

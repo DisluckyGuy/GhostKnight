@@ -70,9 +70,10 @@ void Player::initWeapons()
     weapon.second = Dropped;
 }
 
-Player::Player(ge::Data* data)
+Player::Player(ge::Data* data, Map* map)
 {
     this->data = data;
+    this->map = map;
     initVariables();
     initPlayer();
     initHealth();
@@ -82,6 +83,7 @@ Player::Player(ge::Data* data)
 Player::~Player()
 {
     delete this->data;
+    delete this->map;
 }
 
 sf::Sprite *Player::getPlayer()
@@ -116,6 +118,17 @@ bool* Player::getDirection(int n)
         return &direction[3];
     } else {
         return &direction[0];
+    }
+}
+
+void Player::checkCollisions()
+{
+    for (mapRow &i : *map->getMap()) {
+        for (mapPair &j : i) {
+            if (j.second == cellType::Wall) {
+                ge::tools::isColliding(player, j.first, velocity);
+            }
+        }
     }
 }
 
@@ -182,6 +195,7 @@ void Player::updateLegs()
 void Player::updatePlayer()
 {
     checkInputs();
+    checkCollisions();
     updateLegs();
 }
 

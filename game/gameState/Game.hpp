@@ -16,8 +16,9 @@ private:
     typedef std::pair<sf::Sprite,cellType> mapPair;
     //View mainView;
     sf::Event event;
-    Player player = Player(data);
     Map map = Map(data);
+    Player player = Player(data, &map);
+    
 
     sf::CircleShape bullet;
     int fireRate;
