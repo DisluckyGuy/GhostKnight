@@ -4,7 +4,7 @@
 #include <memory>
 #include "../ge/ge.hpp"
 #include "Player.hpp"
-#include "weapon.hpp"
+#include "weaponManager.hpp"
 #include "map.hpp"
 
 class Game : public ge::State
@@ -16,15 +16,15 @@ private:
     typedef std::pair<sf::Sprite,cellType> mapPair;
     //View mainView;
     sf::Event event;
-    Map map = Map(data);
-    Player player = Player(data, &map);
+    Map* map = new Map(data);
+    Player player = Player(data, map);
     
 
     sf::CircleShape bullet;
     int fireRate;
     float bulletSpeed;
     bool idleAnimation;
-    weapon gun = weapon(data);
+    weaponManager gun = weaponManager(data);
     //private functions
     void initVariables();
     void initViews();

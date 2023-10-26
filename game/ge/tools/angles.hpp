@@ -43,5 +43,11 @@ namespace ge
             float angle = std::atan2(distY, distX) * 180/Pi;
             return angle;
         }
+
+        inline sf::Vector2f findVelocity(float radian) {
+            float velocityX  = std::cos(radian);
+            float velocityY  = std::sin(radian);
+            return sf::Vector2f(velocityX,velocityY);
+        }
     }
 } // namespace ge

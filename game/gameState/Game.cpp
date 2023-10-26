@@ -3,7 +3,6 @@
 void Game::initVariables()
 {
     idleAnimation = false;
-    gun.setFirerate(200);
 }
 
 void Game::initViews()
@@ -49,22 +48,12 @@ void Game::checkCollisions()
 
 void Game::updateWeaponsGame()
 {
-    sf::Sprite* weapon = player.getWeapon();
-    sf::Vector2f MPV = ge::getMousePosView(data);
-    float angle = ge::tools::findAngle(*player.getPlayer(), MPV);
-    if (player.getWeaponState() == Held) {
-        player.getWeapon()->setRotation(angle);
-        if (angle <= 90.f && angle >= -90.f) {
-            player.getWeapon()->setTextureRect(sf::IntRect(0,70,40,15));
-        } else {
-            player.getWeapon()->setTextureRect(sf::IntRect(40,70,40,15));
-        }
-    }
+    
 }
 
 void Game::renderMap()
 {
-    for (mapRow &i : *map.getMap()) {
+    for (mapRow &i : *map->getMap()) {
         for (mapPair &j : i) {
             data->win.draw(j.first);
         }
@@ -83,8 +72,8 @@ void Game::renderBullets()
 
 void Game::update()
 {
-    map.update();
-    map.updateMousePos();
+    map->update();
+    map->updateMousePos();
     player.update();
     updateViews();
     updateWeaponsGame();
@@ -92,6 +81,6 @@ void Game::update()
 
 void Game::render()
 {
-    map.render();
+    map->render();
     player.render();
 }

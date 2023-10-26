@@ -5,6 +5,7 @@
 #include <vector>
 #include <array>
 #include <iostream>
+#include "weaponManager.hpp"
 #include "../ge/ge.hpp"
 #include "map.hpp"
 
@@ -20,13 +21,13 @@ private:
     //private variables
 
 
+
     
     ge::Data* data;
     Map* map;
     float velocity;
     sf::Texture playerWeaponTexture;
-    sf::Sprite legLeft;
-    sf::Sprite legRight;
+    weaponManager weapons = weaponManager(data);
     sf::Sprite player;
     int health;
     int shield;
@@ -37,10 +38,7 @@ private:
     sf::Vector2i healthPosWin;
     sf::RectangleShape healthAmount;
     sf::RectangleShape shieldAmount;
-    std::pair<sf::Sprite,weaponState> weapon;
     std::array<bool,4> direction;
-    std::array<sf::Texture,3> leftWalkAnimation;
-    std::array<sf::Texture,3> rightWalkAnimation;
     std::vector<sf::RectangleShape> healthRects;
     std::vector<sf::RectangleShape> shieldRects;
     bool EHeld;
@@ -49,6 +47,7 @@ private:
     int walkRate;
     bool leftDown;
     bool playerMoving;
+    
 
     //private functions 
 
@@ -76,8 +75,8 @@ public:
 
     void checkCollisions();
     void updateDirection();
+    void updateWeaponAngle();
     void checkInputs();
-    void updateLegs();
     void updatePlayer();
     void renderPlayer();
     void updateHealth();

@@ -50,24 +50,16 @@ void Player::initPlayer()
 {
     player.setTexture(data->texture.getResource("player")[0]);
     player.setPosition(30.f,30.f);
-    //legLeft.setTexture(playerWeaponTexture);
-    //legLeft.setTextureRect(IntRect(80,70,4,7));
-    //legLeft.setOrigin(1,2);
-    //legLeft.setPosition(player.getPosition().x + 8, player.getPosition().y + 36);
-    //legRight.setTexture(playerWeaponTexture);
-    //legRight.setTextureRect(IntRect(84,70,4,7));
-    //legRight.setOrigin(1,2);
-    //legRight.setPosition(player.getPosition().x + 18 , player.getPosition().y + 36);
     playerMoving = false;
 }
 
 void Player::initWeapons()
 {
-    weapon.first.setTexture(playerWeaponTexture);
-    weapon.first.setTextureRect(sf::IntRect(0,70,40,15));
-    weapon.first.setOrigin(5.f,7.f);
-    weapon.first.setPosition(130.f,100.f);
-    weapon.second = Dropped;
+    //weapon.first.setTexture(playerWeaponTexture);
+    //weapon.first.setTextureRect(sf::IntRect(0,70,40,15));
+    //weapon.first.setOrigin(5.f,7.f);
+    //weapon.first.setPosition(130.f,100.f);
+    //weapon.second = Dropped;
 }
 
 Player::Player(ge::Data* data, Map* map)
@@ -89,16 +81,6 @@ Player::~Player()
 sf::Sprite *Player::getPlayer()
 {
     return &player;
-}
-
-sf::Sprite *Player::getWeapon()
-{
-    return &weapon.first;
-}
-
-int Player::getWeaponState(int n)
-{
-    return weapon.second;
 }
 
 float Player::getVelocity()
@@ -128,6 +110,26 @@ void Player::checkCollisions()
             if (j.second == cellType::Wall) {
                 ge::tools::isColliding(player, j.first, velocity);
             }
+        }
+    }
+}
+
+void Player::updateDirection()
+{
+}
+
+void Player::updateWeaponAngle()
+{
+    weaponStruct* weaponSt = weapons.getWeapon(0);
+    sf::Sprite* weapon = &weaponSt->weaponSprite;
+    sf::Vector2f MPV = ge::getMousePosView(data);
+    float angle = ge::tools::findAngle(player, MPV);
+    if (weaponSt->held) {
+        weapon->setRotation(angle);
+        if (angle <= 90.f && angle >= -90.f) {
+            weapon->setTextureRect(sf::IntRect(0,70,40,15));
+        } else {
+            weapon->setTextureRect(sf::IntRect(40,70,40,15));
         }
     }
 }
@@ -162,75 +164,43 @@ void Player::checkInputs()
     }
 }
 
-void Player::updateLegs()
-{
-    
-    walkTimer = walkClock.getElapsedTime();
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::A) 
-    || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        playerMoving = true;
-        if (walkTimer.asMilliseconds() >= walkRate) {
-            if (leftDown) {
-                leftDown = false;
-            } else {
-                leftDown = true;
-            }
-            walkClock.restart();
-        }
-    } else {
-        playerMoving = false;
-    }
-    //if (leftDown && playerMoving) {
-    //    legLeft.setPosition(player.getPosition().x + 9, player.getPosition().y + 34);
-    //    legRight.setPosition(player.getPosition().x + 18, player.getPosition().y + 36);
-    //} else if (!leftDown && playerMoving) {
-    //    legLeft.setPosition(player.getPosition().x + 9, player.getPosition().y + 36);
-    //    legRight.setPosition(player.getPosition().x + 18, player.getPosition().y + 34);
-    //} else {
-    //    legLeft.setPosition(player.getPosition().x + 9, player.getPosition().y + 36);
-    //    legRight.setPosition(player.getPosition().x + 18, player.getPosition().y + 36);
-    //}
-}
-
 void Player::updatePlayer()
 {
     checkInputs();
     checkCollisions();
-    updateLegs();
 }
 
 void Player::updateWeapons()
 {
-    float distX = abs(weapon.first.getPosition().x - player.getPosition().x);
-    float distY = abs(weapon.first.getPosition().y - player.getPosition().y);
-    if (weapon.second == Held) {
-        weapon.first.setPosition(player.getPosition().x + 15.f, player.getPosition().y + 28.f);
+    weaponStruct* weapon = weapons.getWeapon(0);
+    float distX = abs(weapon->weaponSprite.getPosition().x - player.getPosition().x);
+    float distY = abs(weapon->weaponSprite.getPosition().y - player.getPosition().y);
+    if (weapon->held) {
+        updateWeaponAngle();
+        weapons.getWeapon(0)->weaponSprite.setPosition(player.getPosition().x + 15.f, player.getPosition().y + 28.f);
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            sf::Vector2f MPV =  ge::getMousePosView(data);
+            weapons.shoot(*weapons.getWeapons()->begin(), MPV);
+        }
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) && weapon.second == Dropped) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
         if (!EHeld) {
             EHeld = true;
-            if (distX < 30.f && distY < 30.f && weapon.second == Dropped) {
-                weapon.second = Held;
+            if (distX < 100.f && distY < 100.f) {
+                weapon->held = !weapon->held;
             }
         }
     } else {
         EHeld = false;
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::T) && weapon.second == Held) {
-        weapon.first.setRotation(0);
-        weapon.second = Dropped;
-    }
 }
 
 void Player::renderWeapons()
 {
-    data->win.draw(weapon.first);
 }
 
 void Player::renderPlayer()
 {
-    //data->win.draw(legLeft);
-    //data->win.draw(legRight);
     data->win.draw(player);
 }
 
@@ -267,17 +237,18 @@ void Player::renderHealth()
 
 void Player::update()
 {
-    updateHealth(); 
     updatePlayer();
     updateWeapons();
+    sf::Vector2f MPV = ge::getMousePosView(data);
+    std::cout << ge::tools::findVelocity(ge::tools::toRadians(ge::tools::findAngle(player,MPV))).x << " " << ge::tools::findVelocity(ge::tools::toRadians(ge::tools::findAngle(player,MPV))).y << std::endl;
 }
 
 void Player::render()
 {
-    if (weapon.second == Dropped) 
-        renderWeapons();
+    if (!weapons.getWeapon(0)->held) 
+        data->win.draw(weapons.getWeapons()->begin()->weaponSprite);
+        
     renderPlayer();
-    if (weapon.second == Held) 
-        renderWeapons();
-    //renderHealth();
+    if (weapons.getWeapon(0)->held) 
+        data->win.draw(weapons.getWeapons()->begin()->weaponSprite);
 }
