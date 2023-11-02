@@ -9,7 +9,7 @@ namespace ge
     namespace tools {
         
         inline float toRadians(float degree) {
-            return degree * (Pi/360);
+            return degree * (Pi/180);
         }
 
         inline float toDegrees(float radian) {
@@ -44,9 +44,9 @@ namespace ge
             return angle;
         }
 
-        inline sf::Vector2f findVelocity(float radian) {
-            float velocityX  = std::cos(radian);
-            float velocityY  = std::sin(radian);
+        inline sf::Vector2f findVelocity(float radian, float velocity = 1) {
+            float velocityX  = velocity * std::cos(radian);
+            float velocityY  = velocity * std::sin(radian);
             return sf::Vector2f(velocityX,velocityY);
         }
     }

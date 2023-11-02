@@ -24,7 +24,7 @@ private:
     int fireRate;
     float bulletSpeed;
     bool idleAnimation;
-    weaponManager gun = weaponManager(data);
+    //weaponManager gun = weaponManager(data);
     //private functions
     void initVariables();
     void initViews();

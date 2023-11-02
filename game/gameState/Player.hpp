@@ -27,7 +27,7 @@ private:
     Map* map;
     float velocity;
     sf::Texture playerWeaponTexture;
-    weaponManager weapons = weaponManager(data);
+    weaponManager weapons;
     sf::Sprite player;
     int health;
     int shield;

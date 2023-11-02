@@ -62,7 +62,7 @@ void Player::initWeapons()
     //weapon.second = Dropped;
 }
 
-Player::Player(ge::Data* data, Map* map)
+Player::Player(ge::Data* data, Map* map) : weapons(data)
 {
     this->data = data;
     this->map = map;
@@ -178,20 +178,28 @@ void Player::updateWeapons()
     if (weapon->held) {
         updateWeaponAngle();
         weapons.getWeapon(0)->weaponSprite.setPosition(player.getPosition().x + 15.f, player.getPosition().y + 28.f);
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            sf::Vector2f MPV =  ge::getMousePosView(data);
-            weapons.shoot(*weapons.getWeapons()->begin(), MPV);
-        }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
         if (!EHeld) {
             EHeld = true;
-            if (distX < 100.f && distY < 100.f) {
+            if (distX < 50.f && distY < 50.f) {
                 weapon->held = !weapon->held;
             }
         }
     } else {
         EHeld = false;
+    }
+    for (mapRow &mp : *map->getMap()) {
+        for (mapPair &mpair : mp) {
+            for (weaponStruct &weapon : *weapons.getWeapons()) {
+                for (int i = 0; i < weapon.bullets.size(); i++) {
+                    if (mpair.first.getGlobalBounds().intersects(weapon.bullets[i].getGlobalBounds()) && mpair.second == cellType::Wall) {
+                        weapon.bullets.erase(weapon.bullets.begin() + i);
+                        weapon.Velocities.erase(weapon.Velocities.begin() + i);
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -239,8 +247,7 @@ void Player::update()
 {
     updatePlayer();
     updateWeapons();
-    sf::Vector2f MPV = ge::getMousePosView(data);
-    std::cout << ge::tools::findVelocity(ge::tools::toRadians(ge::tools::findAngle(player,MPV))).x << " " << ge::tools::findVelocity(ge::tools::toRadians(ge::tools::findAngle(player,MPV))).y << std::endl;
+    weapons.update();
 }
 
 void Player::render()
@@ -251,4 +258,7 @@ void Player::render()
     renderPlayer();
     if (weapons.getWeapon(0)->held) 
         data->win.draw(weapons.getWeapons()->begin()->weaponSprite);
+    for ( sf::Sprite &i : weapons.getWeapon(0)->bullets) {
+        data->win.draw(i);
+    }
 }
