@@ -4,6 +4,7 @@
 #include <SFML/System.hpp>
 #include <vector>
 #include <iostream>
+#include "../tools/tools.hpp"
 
 struct Frame {
         int duration;
@@ -21,6 +22,10 @@ private:
     
 public:
 
+    ~Animation() {
+        delete this->sprite;
+    }
+
     void setSprite(sf::Sprite* sprite) {
         this->sprite = sprite;
     }
@@ -34,16 +39,21 @@ public:
     int getCurrentFrame() {
         return currentFrame;
     }
-    
+
     void setFrame(int index) {
         currentFrame = index;
+    }
+
+    void reset() {
+        clock.restart();
+        currentFrame = 1;
     }
 
     sf::IntRect getFrame() {
         return animationFrames[currentFrame].rect;
     }
 
-    void play() {
+    void play(bool flip = false) {
         if (animationFrames.size() == 0) {
             return;
         }
@@ -55,15 +65,11 @@ public:
             currentFrame += 1;
             clock.restart();
         }
-        sprite->setTextureRect(animationFrames[currentFrame].rect);
-        //std::cout << clock.getElapsedTime().asMilliseconds() << std::endl;
-        //std::cout << currentFrame << std::endl;
-        
-        
-    }
-
-    ~Animation() {
-        delete this->sprite;
+        if (flip) {
+            sprite->setTextureRect(ge::tools::flipTextureX(animationFrames[currentFrame].rect));
+        } else {
+            sprite->setTextureRect(animationFrames[currentFrame].rect);
+        } 
     }
 
 };

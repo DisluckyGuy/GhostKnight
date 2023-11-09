@@ -7,13 +7,7 @@ void Player::initVariables()
     playerAnimation.addFrame(sf::IntRect(35,0,35,52), 100);
     playerAnimation.addFrame(sf::IntRect(70,0,35,52), 200);
     playerAnimation.addFrame(sf::IntRect(35,0,35,52), 100);
-    flippedAnimation.setSprite(&player);
-    flippedAnimation.addFrame(sf::IntRect(0,0,-35,52), 100);
-    flippedAnimation.addFrame(sf::IntRect(0,0,-35,52), 100);
-    flippedAnimation.addFrame(sf::IntRect(35,0,-35,52), 100);
-    flippedAnimation.addFrame(sf::IntRect(70,0,-35,52), 200);
-    flippedAnimation.addFrame(sf::IntRect(35,0,-35,52), 100);
-    flippedAnimation.addFrame(sf::IntRect(0,0,-35,52), 100);
+    playerRect = sf::IntRect(0,0,35,52);
     health = 7;
     shield = 5;
     velocity = 2.f;
@@ -92,21 +86,6 @@ float Player::getVelocity()
     return velocity;
 }
 
-bool* Player::getDirection(int n)
-{
-    if (n == 0) {
-        return &direction[0];
-    } else if (n == 1) {
-        return &direction[1];
-    } else if (n == 2) {
-        return &direction[2];
-    } else if (n == 3) {
-        return &direction[3];
-    } else {
-        return &direction[0];
-    }
-}
-
 void Player::checkCollisions()
 {
     for (mapRow &i : *map->getMap()) {
@@ -116,10 +95,6 @@ void Player::checkCollisions()
             }
         }
     }
-}
-
-void Player::updateDirection()
-{
 }
 
 void Player::updateWeaponAngle()
@@ -135,35 +110,46 @@ void Player::updateWeaponAngle()
 void Player::checkInputs()
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+        playerMoving = true;
         player.move(0.f,-velocity);
-        direction[0] = true;
+        
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+        playerMoving = true;
         player.move(0.f,velocity);
-        direction[1] = true;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+        playerMoving = true;
         player.move(-velocity,0.f);
-        direction[2] = true;
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+        playerMoving = true;
         player.move(velocity,0.f);
-        direction[3] = true;        
     }
-    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        direction[0] = false;
+    if (!(sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))) {
+        playerMoving = false;
     }
-    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-        direction[1] = false;
-    }
-    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        direction[2] = false;
-    }
-    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        direction[3] = false;        
+    sf::Vector2f MPV = ge::getMousePosView(data);
+    float angle = ge::tools::findAngle(player, MPV);
+    if (playerMoving) {
+        
+        if ((angle > -90 && angle < 0) || (angle < 90 && angle > 0)) {
+            playerAnimation.play();
+        } else {
+            playerAnimation.play(true);
+        }
+    } else {
+        playerAnimation.reset();
+        player.setTextureRect(sf::IntRect(0,0,35,52));
+        if ((angle > -90 && angle < 0) || (angle < 90 && angle > 0)) {
+            player.setTextureRect(sf::IntRect(0,0,35,52));
+        } else {
+            player.setTextureRect(ge::tools::flipTextureX(playerRect));
+        }
     }
 }
 
 void Player::updatePlayer()
 {
+
     checkInputs();
     checkCollisions();
 }
@@ -175,7 +161,7 @@ void Player::updateWeapons()
     float distY = abs(weapon->weaponSprite.getPosition().y - player.getPosition().y);
     if (weapon->held) {
         updateWeaponAngle();
-        weapons->getWeapon(0)->weaponSprite.setPosition(player.getPosition().x + 15.f, player.getPosition().y + 28.f);
+        weapons->getWeapon(0)->weaponSprite.setPosition(player.getPosition().x + 18.f, player.getPosition().y + 37.f);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
         if (!EHeld) {
@@ -231,7 +217,6 @@ void Player::renderHealth()
 
 void Player::update()
 {
-    playerAnimation.play();
     updatePlayer();
     updateWeapons();
 }

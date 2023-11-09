@@ -30,6 +30,7 @@ private:
     weaponManager* weapons;
     Animation playerAnimation;
     Animation flippedAnimation;
+    sf::IntRect playerRect;
     sf::Sprite player;
     int health;
     int shield;
@@ -40,7 +41,6 @@ private:
     sf::Vector2i healthPosWin;
     sf::RectangleShape healthAmount;
     sf::RectangleShape shieldAmount;
-    std::array<bool,4> direction;
     std::vector<sf::RectangleShape> healthRects;
     std::vector<sf::RectangleShape> shieldRects;
     bool EHeld;
@@ -64,10 +64,8 @@ public:
 
     sf::Sprite* getPlayer();
     float getVelocity();
-    bool* getDirection(int n);
 
     void checkCollisions();
-    void updateDirection();
     void updateWeaponAngle();
     void checkInputs();
     void updatePlayer();
