@@ -17,7 +17,8 @@ private:
     //View mainView;
     sf::Event event;
     Map* map = new Map(data);
-    Player player = Player(data, map);
+    weaponManager* weapons = new weaponManager(data, map);
+    Player* player = new Player(data, map, weapons);
     
 
     sf::CircleShape bullet;
@@ -42,7 +43,7 @@ public:
     void updateViews();
     void updateHealthGame();
     void checkCollisions();
-    void updateWeaponsGame();
+    void updateWeapons();
     void renderMap();
     void updateBullets();
     void renderBullets();

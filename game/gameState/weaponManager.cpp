@@ -17,15 +17,17 @@ void weaponManager::initWeapons()
     weapons.push_back(rifle);
 }
 
-weaponManager::weaponManager(ge::Data *data)
+weaponManager::weaponManager(ge::Data* data, Map* map)
 {
     this->data = data;
+    this->map = map;
     initWeapons();
 }
 
 weaponManager::~weaponManager()
 {
     delete this->data;
+    delete this->map;
 }
 std::vector<weaponStruct> *weaponManager::getWeapons()
 {
@@ -70,26 +72,68 @@ void weaponManager::setHold(weaponStruct weapon,bool isHeld)
     weapon.held = isHeld;
 }
 
+void weaponManager::updateWeaponAngle(weaponStruct &weapon)
+{
+    if (weapon.angle <= 90.f && weapon.angle >= -90.f) {
+            weapon.weaponSprite.setTextureRect(sf::IntRect(0,70,40,15));
+        } else {
+            weapon.weaponSprite.setTextureRect(sf::IntRect(40,70,40,15));
+        }
+        if (weapon.held) {
+            weapon.weaponSprite.setRotation(weapon.angle);
+        }
+}
+
+void weaponManager::updateWeaponState(weaponStruct &weapon)
+{
+    if (weapon.held) {
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && weapon.held) {
+            sf::Vector2f MPV = ge::getMousePosView(data);
+            shoot(&weapon, MPV);
+        }
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+        if (!EHeld) {
+            EHeld = true;
+        }
+    } else {
+        EHeld = false;
+    }
+    for (weaponStruct &weapon : weapons) {
+        for (int i = 0; i < weapon.bullets.size(); i++) {
+            weapon.bullets[i].move(weapon.Velocities[i]);
+        }
+    }
+}
+
+void weaponManager::updateBulletCollisions(weaponStruct &weapon)
+{
+    for (mapRow &mp : *map->getMap()) {
+        for (mapPair &mpair : mp) {
+            for (int i = 0; i < weapon.bullets.size(); i++) {
+                if (mpair.first.getGlobalBounds().intersects(weapon.bullets[i].getGlobalBounds()) && mpair.second == cellType::Wall) {
+                    weapon.bullets.erase(weapon.bullets.begin() + i);
+                    weapon.Velocities.erase(weapon.Velocities.begin() + i);
+                }
+            }
+        }
+    }
+}
+
 void weaponManager::update()
 {
     for (weaponStruct &weapon : weapons) {
-        if (weapon.held) {
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && weapon.held) {
-                sf::Vector2f MPV = ge::getMousePosView(data);
-                shoot(&weapon, MPV);
-            }
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-            if (!EHeld) {
-                EHeld = true;
-            }
-        } else {
-            EHeld = false;
-        }
-        for (weaponStruct &weapon : weapons) {
-            for (int i = 0; i < weapon.bullets.size(); i++) {
-                weapon.bullets[i].move(weapon.Velocities[i]);
-            }
+        updateWeaponAngle(weapon);
+        updateWeaponState(weapon);
+        updateBulletCollisions(weapon);
+    }
+}
+
+void weaponManager::render()
+{
+    for (weaponStruct &weapon : weapons) {
+        for ( sf::Sprite &i : weapon.bullets) {
+            data->win.draw(i);
         }
     }
 }

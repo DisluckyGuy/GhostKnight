@@ -28,6 +28,9 @@ Game::Game(ge::Data *data): ge::State(data)
 Game::~Game()
 {
     delete this->data;
+    delete this->map;
+    delete this->weapons;
+    delete this->player;
 }
 
 
@@ -46,7 +49,7 @@ void Game::checkCollisions()
 
 }
 
-void Game::updateWeaponsGame()
+void Game::updateWeapons()
 {
     
 }
@@ -74,13 +77,18 @@ void Game::update()
 {
     map->update();
     map->updateMousePos();
-    player.update();
+    player->update();
+    weapons->update();
     updateViews();
-    updateWeaponsGame();
 }
 
 void Game::render()
 {
     map->render();
-    player.render();
+    if (!weapons->getWeapon(0)->held) 
+        data->win.draw(weapons->getWeapons()->begin()->weaponSprite);
+    player->render();
+    if (weapons->getWeapon(0)->held) 
+        data->win.draw(weapons->getWeapon(0)->weaponSprite);
+    weapons->render();
 }

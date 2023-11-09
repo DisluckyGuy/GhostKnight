@@ -27,7 +27,9 @@ private:
     Map* map;
     float velocity;
     sf::Texture playerWeaponTexture;
-    weaponManager weapons;
+    weaponManager* weapons;
+    Animation playerAnimation;
+    Animation flippedAnimation;
     sf::Sprite player;
     int health;
     int shield;
@@ -54,24 +56,15 @@ private:
     void initVariables();
     void initHealth();
     void initPlayer();
-    void initWeapons();
 
 public:
 
-    //constructor and destructor
-
-    Player(ge::Data* data, Map* map);
+    Player(ge::Data* data, Map* map, weaponManager* weapons);
     ~Player();
 
-    //accesssors
-
     sf::Sprite* getPlayer();
-    sf::Sprite* getWeapon();
-    int getWeaponState(int n = 0);
     float getVelocity();
     bool* getDirection(int n);
-
-    //public functions
 
     void checkCollisions();
     void updateDirection();
@@ -83,8 +76,6 @@ public:
     void renderHealth();
     void updateWeapons();
     void renderWeapons();
-
-    //update & render
 
     void update();
     void render();

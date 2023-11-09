@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include "state/state.hpp"
+#include "Animation/Animation.hpp"
 #include "resource/resource.hpp"
 #include "resource/texture.hpp"
 #include "tools/tools.hpp"

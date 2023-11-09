@@ -49,6 +49,13 @@ namespace ge
                     }
                 }
 
+                if (first == "playerTexture") {
+                    if (!img.loadFromFile(root + second)) {
+                        std::cout << "Error: couldn't load from path " << path << "." << std::endl;
+                        std::exit(-1);
+                    }
+                }
+
                 if (second == "[") {
                     multi = true;
                     tempName = first;

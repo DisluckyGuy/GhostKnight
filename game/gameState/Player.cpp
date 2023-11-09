@@ -2,6 +2,18 @@
 
 void Player::initVariables()
 {
+    playerAnimation.setSprite(&player);
+    playerAnimation.addFrame(sf::IntRect(0,0,35,52), 100);
+    playerAnimation.addFrame(sf::IntRect(35,0,35,52), 100);
+    playerAnimation.addFrame(sf::IntRect(70,0,35,52), 200);
+    playerAnimation.addFrame(sf::IntRect(35,0,35,52), 100);
+    flippedAnimation.setSprite(&player);
+    flippedAnimation.addFrame(sf::IntRect(0,0,-35,52), 100);
+    flippedAnimation.addFrame(sf::IntRect(0,0,-35,52), 100);
+    flippedAnimation.addFrame(sf::IntRect(35,0,-35,52), 100);
+    flippedAnimation.addFrame(sf::IntRect(70,0,-35,52), 200);
+    flippedAnimation.addFrame(sf::IntRect(35,0,-35,52), 100);
+    flippedAnimation.addFrame(sf::IntRect(0,0,-35,52), 100);
     health = 7;
     shield = 5;
     velocity = 2.f;
@@ -48,34 +60,26 @@ void Player::initHealth()
 
 void Player::initPlayer()
 {
-    player.setTexture(data->texture.getResource("player")[0]);
+    player.setTexture(data->texture.getResource("playerTexture")[0]);
     player.setPosition(30.f,30.f);
     playerMoving = false;
 }
 
-void Player::initWeapons()
-{
-    //weapon.first.setTexture(playerWeaponTexture);
-    //weapon.first.setTextureRect(sf::IntRect(0,70,40,15));
-    //weapon.first.setOrigin(5.f,7.f);
-    //weapon.first.setPosition(130.f,100.f);
-    //weapon.second = Dropped;
-}
-
-Player::Player(ge::Data* data, Map* map) : weapons(data)
+Player::Player(ge::Data* data, Map* map, weaponManager* weapons)
 {
     this->data = data;
     this->map = map;
+    this->weapons = weapons;
     initVariables();
     initPlayer();
     initHealth();
-    initWeapons();
 }
 
 Player::~Player()
 {
     delete this->data;
     delete this->map;
+    delete this->weapons;
 }
 
 sf::Sprite *Player::getPlayer()
@@ -120,17 +124,11 @@ void Player::updateDirection()
 
 void Player::updateWeaponAngle()
 {
-    weaponStruct* weaponSt = weapons.getWeapon(0);
-    sf::Sprite* weapon = &weaponSt->weaponSprite;
+    weaponStruct* weaponSt = weapons->getWeapon(0);
     sf::Vector2f MPV = ge::getMousePosView(data);
     float angle = ge::tools::findAngle(player, MPV);
     if (weaponSt->held) {
-        weapon->setRotation(angle);
-        if (angle <= 90.f && angle >= -90.f) {
-            weapon->setTextureRect(sf::IntRect(0,70,40,15));
-        } else {
-            weapon->setTextureRect(sf::IntRect(40,70,40,15));
-        }
+        weaponSt->angle = angle;
     }
 }
 
@@ -172,12 +170,12 @@ void Player::updatePlayer()
 
 void Player::updateWeapons()
 {
-    weaponStruct* weapon = weapons.getWeapon(0);
+    weaponStruct* weapon = weapons->getWeapon(0);
     float distX = abs(weapon->weaponSprite.getPosition().x - player.getPosition().x);
     float distY = abs(weapon->weaponSprite.getPosition().y - player.getPosition().y);
     if (weapon->held) {
         updateWeaponAngle();
-        weapons.getWeapon(0)->weaponSprite.setPosition(player.getPosition().x + 15.f, player.getPosition().y + 28.f);
+        weapons->getWeapon(0)->weaponSprite.setPosition(player.getPosition().x + 15.f, player.getPosition().y + 28.f);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
         if (!EHeld) {
@@ -188,18 +186,6 @@ void Player::updateWeapons()
         }
     } else {
         EHeld = false;
-    }
-    for (mapRow &mp : *map->getMap()) {
-        for (mapPair &mpair : mp) {
-            for (weaponStruct &weapon : *weapons.getWeapons()) {
-                for (int i = 0; i < weapon.bullets.size(); i++) {
-                    if (mpair.first.getGlobalBounds().intersects(weapon.bullets[i].getGlobalBounds()) && mpair.second == cellType::Wall) {
-                        weapon.bullets.erase(weapon.bullets.begin() + i);
-                        weapon.Velocities.erase(weapon.Velocities.begin() + i);
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -245,20 +231,12 @@ void Player::renderHealth()
 
 void Player::update()
 {
+    playerAnimation.play();
     updatePlayer();
     updateWeapons();
-    weapons.update();
 }
 
 void Player::render()
 {
-    if (!weapons.getWeapon(0)->held) 
-        data->win.draw(weapons.getWeapons()->begin()->weaponSprite);
-        
     renderPlayer();
-    if (weapons.getWeapon(0)->held) 
-        data->win.draw(weapons.getWeapons()->begin()->weaponSprite);
-    for ( sf::Sprite &i : weapons.getWeapon(0)->bullets) {
-        data->win.draw(i);
-    }
 }

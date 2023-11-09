@@ -1,9 +1,11 @@
 #pragma once
 #include "../ge/ge.hpp"
 #include <vector>
+#include "map.hpp"
 
 struct weaponStruct
 {
+    float angle;
     sf::Vector2f bulletVelocity;
     unsigned int firerate;
     unsigned int velocity;
@@ -19,6 +21,7 @@ class weaponManager {
     private:
 
     ge::Data* data;
+    Map* map;
     bool EHeld;
 
     
@@ -32,7 +35,7 @@ class weaponManager {
 
     public:
 
-    weaponManager(ge::Data* data);
+    weaponManager(ge::Data* data, Map* map);
     ~weaponManager();
     sf::Texture rifleTexture;
     std::vector<weaponStruct>* getWeapons();
@@ -44,5 +47,10 @@ class weaponManager {
     void setBulletTexture(weaponStruct& weapon, sf::Texture texture);
     void setHold(weaponStruct weapon, bool isheld);
 
+    void updateWeaponAngle(weaponStruct &weapon);
+    void updateWeaponState(weaponStruct &weapon);
+    void updateBulletCollisions(weaponStruct &weapon);
+
     void update();
+    void render();
 };
