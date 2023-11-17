@@ -10,8 +10,13 @@ enum class cellType {
     Empty
 };
 
-typedef std::array<std::pair<sf::Sprite,cellType>,50> mapRow;
-typedef std::pair<sf::Sprite,cellType> mapPair;
+struct Cell {
+    cellType type;
+    sf::Sprite sprite;
+
+};
+
+typedef std::array<Cell,50> mapRow;
 
 class Map {
 
@@ -23,7 +28,7 @@ class Map {
     sf::Sprite wallCell;
     sf::Sprite emptyCell;
     std::array<std::string,50> mapStr;
-    std::array<std::array<std::pair<sf::Sprite,cellType>,50>,50> mapArr;
+    std::array<std::array<Cell,50>,50> mapArr;
 
     void initCells();
     void initMap();
@@ -36,7 +41,7 @@ class Map {
     Map(ge::Data *data);
     ~Map();
 
-    std::array<mapRow,50>* getMap();
+    std::array<std::array<Cell,50>,50>* getMap();
 
     void updateMousePos();
 

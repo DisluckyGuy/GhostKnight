@@ -29,10 +29,10 @@ namespace ge {
             sf::FloatRect s1bounds = s1.getGlobalBounds();
             sf::FloatRect s2bounds = s2.getGlobalBounds();
             if (
-            s1bounds.left < s2bounds.left + s2bounds.width && s1bounds.left > s2bounds.left && s1bounds.left + s1bounds.width > s2bounds.left + s2bounds.width || 
-            s1bounds.left + s1bounds.width > s2bounds.left && s1bounds.left < s2bounds.left && s1bounds.left + s1bounds.width < s2bounds.left + s2bounds.width || 
-            s1bounds.top < s2bounds.top + s2bounds.height && s1bounds.top > s2bounds.top && s1bounds.top + s1bounds.height > s2bounds.top + s2bounds.height || 
-            s1bounds.top + s1bounds.height < s2bounds.top && s1bounds.top < s2bounds.top && s1bounds.top + s1bounds.height < s2bounds.top + s2bounds.height
+            (s1bounds.left < s2bounds.left + s2bounds.width && s1bounds.left > s2bounds.left && s1bounds.left + s1bounds.width > s2bounds.left + s2bounds.width) || 
+            (s1bounds.left + s1bounds.width > s2bounds.left && s1bounds.left < s2bounds.left && s1bounds.left + s1bounds.width < s2bounds.left + s2bounds.width) || 
+            (s1bounds.top < s2bounds.top + s2bounds.height && s1bounds.top > s2bounds.top && s1bounds.top + s1bounds.height > s2bounds.top + s2bounds.height) || 
+            (s1bounds.top + s1bounds.height < s2bounds.top && s1bounds.top < s2bounds.top && s1bounds.top + s1bounds.height < s2bounds.top + s2bounds.height)
             ) {
                 return true;
             } else {

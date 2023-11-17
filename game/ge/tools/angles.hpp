@@ -17,15 +17,15 @@ namespace ge
         }
 
         inline float findAngle(sf::Sprite &s1, sf::Sprite &s2) {
-            float distX = std::abs(s2.getPosition().x - s1.getPosition().x);
-            float distY = std::abs(s2.getPosition().y - s1.getPosition().y);
+            float distX = s2.getPosition().x - s1.getPosition().x;
+            float distY = s2.getPosition().y - s1.getPosition().y;
             float angle = atan2f(distY, distX) * 180/Pi;
             return angle;
         }
 
         inline float findAngle(sf::Vector2f &v1, sf::Vector2f *v2) {
-            float distX = std::abs(v2->x - v1.x);
-            float distY = std::abs(v2->y - v1.y);
+            float distX = v2->x - v1.x;
+            float distY = v2->y - v1.y;
             float angle = atan2f(distY, distX) * 180/Pi;
             return angle;
         }

@@ -59,7 +59,7 @@ void Player::initPlayer()
     playerMoving = false;
 }
 
-Player::Player(ge::Data* data, Map* map, weaponManager* weapons)
+Player::Player(ge::Data* data, Map* map, weaponManager* weapons) : enemies(data, weapons, map, &player)
 {
     this->data = data;
     this->map = map;
@@ -89,9 +89,9 @@ float Player::getVelocity()
 void Player::checkCollisions()
 {
     for (mapRow &i : *map->getMap()) {
-        for (mapPair &j : i) {
-            if (j.second == cellType::Wall) {
-                ge::tools::isColliding(player, j.first, velocity);
+        for (Cell &j : i) {
+            if (j.type == cellType::Wall) {
+                ge::tools::isColliding(player, j.sprite, velocity);
             }
         }
     }
@@ -219,9 +219,11 @@ void Player::update()
 {
     updatePlayer();
     updateWeapons();
+    enemies.update();
 }
 
 void Player::render()
 {
     renderPlayer();
+    enemies.render();
 }

@@ -21,13 +21,14 @@ void Map::initMap()
     for (int i = 0; i < mapArr.size(); i++) {
         for (int j = 0; j < mapArr.size(); j++) {
             if (mapStr[i][j] == '#') {
-                wallCell.setPosition(static_cast<float>(i * 30), static_cast<float>(j * 30));
-                mapArr[i][j].second = cellType::Wall;
-                mapArr[i][j].first = wallCell;
+                mapArr[i][j].sprite = wallCell;
+                mapArr[i][j].sprite.setPosition(static_cast<float>(i * 30), static_cast<float>(j * 30));
+                mapArr[i][j].type = cellType::Wall;
+                
             } else if (mapStr[i][j] == ' ') {
-                emptyCell.setPosition(static_cast<float>(i * 30), static_cast<float>(j * 30));
-                mapArr[i][j].second = cellType::Empty;
-                mapArr[i][j].first = emptyCell;
+                mapArr[i][j].sprite = emptyCell;
+                mapArr[i][j].type = cellType::Empty;
+                mapArr[i][j].sprite.setPosition(static_cast<float>(i * 30), static_cast<float>(j * 30));
             }
         }
     }
@@ -45,7 +46,7 @@ Map::~Map() {
     delete this->data;
 }
 
-std::array<mapRow, 50>* Map::getMap()
+std::array<std::array<Cell,50>,50>* Map::getMap()
 {
     return &mapArr;
 }
@@ -63,8 +64,8 @@ void Map::update()
 void Map::render()
 {
     for (mapRow &i : mapArr) {
-        for (mapPair &j : i) {
-            data->win.draw(j.first);
+        for (Cell &j : i) {
+            data->win.draw(j.sprite);
         }
     }
 }

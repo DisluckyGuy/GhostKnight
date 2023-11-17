@@ -56,9 +56,9 @@ void Game::updateWeapons()
 
 void Game::renderMap()
 {
-    for (mapRow &i : *map->getMap()) {
-        for (mapPair &j : i) {
-            data->win.draw(j.first);
+    for (std::array<Cell,50> &i : *map->getMap()) {
+        for (Cell &j : i) {
+            data->win.draw(j.sprite);
         }
     }
 }

@@ -6,6 +6,7 @@
 #include <array>
 #include <iostream>
 #include "weaponManager.hpp"
+#include "Enemies/Enemies.hpp"
 #include "../ge/ge.hpp"
 #include "map.hpp"
 
@@ -25,9 +26,10 @@ private:
     
     ge::Data* data;
     Map* map;
+    weaponManager* weapons;
+    Enemies enemies;
     float velocity;
     sf::Texture playerWeaponTexture;
-    weaponManager* weapons;
     Animation playerAnimation;
     Animation flippedAnimation;
     sf::IntRect playerRect;

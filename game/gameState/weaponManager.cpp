@@ -108,10 +108,10 @@ void weaponManager::updateWeaponState(weaponStruct &weapon)
 
 void weaponManager::updateBulletCollisions(weaponStruct &weapon)
 {
-    for (mapRow &mp : *map->getMap()) {
-        for (mapPair &mpair : mp) {
+    for (mapRow &row : *map->getMap()) {
+        for (Cell &cell : row) {
             for (int i = 0; i < weapon.bullets.size(); i++) {
-                if (mpair.first.getGlobalBounds().intersects(weapon.bullets[i].getGlobalBounds()) && mpair.second == cellType::Wall) {
+                if (cell.sprite.getGlobalBounds().intersects(weapon.bullets[i].getGlobalBounds()) && cell.type == cellType::Wall) {
                     weapon.bullets.erase(weapon.bullets.begin() + i);
                     weapon.Velocities.erase(weapon.Velocities.begin() + i);
                 }
