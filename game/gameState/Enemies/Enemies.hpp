@@ -6,7 +6,6 @@
 #include "../weaponManager.hpp"
 #include "../map.hpp"
 #include "Turret.hpp"
-#include "Monster.hpp"
 
 class Enemies {
 
@@ -22,6 +21,7 @@ class Enemies {
     sf::Sprite turretHead;
     sf::Sprite turretBase;
     sf::Sprite turretBullet;
+    int maxTurrets;
 
     void initTurret();
 

@@ -17,41 +17,6 @@ void Player::initVariables()
     playerWeaponTexture = data->texture.getResource("mainTexture")[0];
 }
 
-void Player::initHealth()
-{
-    healthBar.setTexture(playerWeaponTexture);
-    healthBar.setTextureRect(sf::IntRect(0,87,97,21));
-    healthPos.x = 10;
-    healthPos.y = 52;
-    healthBar.setPosition(0,42);
-    //healthBar.setScale(2.f,2.f);
-    shieldBar.setTexture(playerWeaponTexture);
-    shieldBar.setTextureRect(sf::IntRect(0,108,97,21));
-    shieldPos.x = 10;
-    shieldPos.y = 10;
-    shieldBar.setPosition(0,0);
-    //shieldBar.setScale(2.f,2.f);
-    healthAmount.setSize(sf::Vector2f(10.f,11.f));
-    healthAmount.setPosition(0.f,0.f);
-    healthAmount.setFillColor(sf::Color::Red);
-    shieldAmount.setSize(sf::Vector2f(14.f,11.f));
-    shieldAmount.setPosition(0.f,0.f);
-    shieldAmount.setFillColor(sf::Color::White);
-    int posxOffset = 24;
-    int posyOffset = 5;
-    for (int i = 0; i < 7; i++) {
-        healthAmount.setPosition(healthBar.getPosition().x + posxOffset, healthBar.getPosition().y + posyOffset);
-        healthRects.push_back(healthAmount);
-        posxOffset += 10;
-    }
-    posxOffset = 24;
-    for (int i = 0; i < 5; i++) {
-        shieldAmount.setPosition(shieldBar.getPosition().x + posxOffset, shieldBar.getPosition().y + posyOffset);
-        shieldRects.push_back(shieldAmount);
-        posxOffset += 14;
-    }
-}
-
 void Player::initPlayer()
 {
     player.setTexture(data->texture.getResource("playerTexture")[0]);
@@ -66,7 +31,6 @@ Player::Player(ge::Data* data, Map* map, weaponManager* weapons) : enemies(data,
     this->weapons = weapons;
     initVariables();
     initPlayer();
-    initHealth();
 }
 
 Player::~Player()
@@ -184,37 +148,6 @@ void Player::renderPlayer()
     data->win.draw(player);
 }
 
-void Player::updateHealth()
-{
-    int posxOffset = 24;
-    int posyOffset = 5;
-    for (sf::RectangleShape &i : healthRects) {
-        i.setPosition(healthBar.getPosition().x + posxOffset, healthBar.getPosition().y + posyOffset);
-        posxOffset += 10;
-    }
-    posxOffset = 24;
-    for (sf::RectangleShape &i : shieldRects) {
-        i.setPosition(shieldBar.getPosition().x + posxOffset, shieldBar.getPosition().y + posyOffset);
-        posxOffset += 14;
-    }
-}
-
-void Player::renderHealth()
-{
-    sf::Vector2f healthPosWin = data->win.mapPixelToCoords(healthPos);
-    healthBar.setPosition(healthPosWin);
-    sf::Vector2f shieldPosWin = data->win.mapPixelToCoords(shieldPos);
-    shieldBar.setPosition(shieldPosWin);
-    data->win.draw(healthBar);
-    data->win.draw(shieldBar);
-    for (sf::RectangleShape &i : healthRects) {
-        data->win.draw(i);
-    }
-    for (sf::RectangleShape &i : shieldRects) {
-        data->win.draw(i);
-    }
-}
-
 void Player::update()
 {
     updatePlayer();
@@ -224,6 +157,6 @@ void Player::update()
 
 void Player::render()
 {
-    renderPlayer();
     enemies.render();
+    renderPlayer();
 }

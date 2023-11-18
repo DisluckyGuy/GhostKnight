@@ -36,15 +36,6 @@ private:
     sf::Sprite player;
     int health;
     int shield;
-    sf::Sprite healthBar;
-    sf::Sprite shieldBar;
-    sf::Vector2i healthPos;
-    sf::Vector2i shieldPos;
-    sf::Vector2i healthPosWin;
-    sf::RectangleShape healthAmount;
-    sf::RectangleShape shieldAmount;
-    std::vector<sf::RectangleShape> healthRects;
-    std::vector<sf::RectangleShape> shieldRects;
     bool EHeld;
     sf::Clock walkClock;
     sf::Time walkTimer;
@@ -56,7 +47,6 @@ private:
     //private functions 
 
     void initVariables();
-    void initHealth();
     void initPlayer();
 
 public:
@@ -72,8 +62,6 @@ public:
     void checkInputs();
     void updatePlayer();
     void renderPlayer();
-    void updateHealth();
-    void renderHealth();
     void updateWeapons();
     void renderWeapons();
 
