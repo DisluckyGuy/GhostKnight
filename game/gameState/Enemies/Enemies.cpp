@@ -11,7 +11,7 @@ void Enemies::initTurret()
     turretBullet.setTexture(enemyTexture);
     turretBullet.setTextureRect(sf::IntRect(30,18,12,7));
     turret.init(turretBase, turretHead, turretBullet);
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 2; i++) {
         turret.base.setPosition(30 + ((rand() % 48) * 30) ,30 + ((rand() % 48) * 30));
         turret.head.setPosition(turret.base.getPosition().x + turret.base.getGlobalBounds().width / 2, turret.base.getPosition().y + turret.base.getGlobalBounds().height / 2);
         turrets.push_back(turret);
