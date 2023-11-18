@@ -1,5 +1,7 @@
 #include "Player.hpp"
 
+//ge::Data ge::data;
+
 void Player::initVariables()
 {
     playerAnimation.setSprite(&player);
@@ -14,19 +16,19 @@ void Player::initVariables()
     EHeld = false;
     walkRate = 300;
     leftDown = false;
-    playerWeaponTexture = data->texture.getResource("mainTexture")[0];
+    playerWeaponTexture = ge::data.texture.getResource("mainTexture")[0];
 }
 
 void Player::initPlayer()
 {
-    player.setTexture(data->texture.getResource("playerTexture")[0]);
+    player.setTexture(ge::data.texture.getResource("playerTexture")[0]);
+    player.setTextureRect(sf::IntRect(0,0,35,52));
     player.setPosition(30.f,30.f);
     playerMoving = false;
 }
 
-Player::Player(ge::Data* data, Map* map, weaponManager* weapons) : enemies(data, weapons, map, &player)
+Player::Player(Map* map, weaponManager* weapons) : enemies(weapons, map, &player)
 {
-    this->data = data;
     this->map = map;
     this->weapons = weapons;
     initVariables();
@@ -61,7 +63,7 @@ void Player::checkCollisions()
 void Player::updateWeaponAngle()
 {
     weaponStruct* weaponSt = weapons->getWeapon(0);
-    sf::Vector2f MPV = ge::getMousePosView(data);
+    sf::Vector2f MPV = ge::getMousePosView(&ge::data);
     float angle = ge::tools::findAngle(player, MPV);
     if (weaponSt->held) {
         weaponSt->angle = angle;
@@ -88,7 +90,7 @@ void Player::checkInputs()
     if (!(sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))) {
         playerMoving = false;
     }
-    sf::Vector2f MPV = ge::getMousePosView(data);
+    sf::Vector2f MPV = ge::getMousePosView(&ge::data);
     float angle = ge::tools::findAngle(player, MPV);
     if (playerMoving) {
         
@@ -142,7 +144,7 @@ void Player::renderWeapons()
 
 void Player::renderPlayer()
 {
-    data->win.draw(player);
+    ge::data.win.draw(player);
 }
 
 void Player::update()

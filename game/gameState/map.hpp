@@ -1,5 +1,5 @@
 #pragma once
-#include "../ge/ge.hpp"
+#include "../../cppGameEngine/ge.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
@@ -20,9 +20,20 @@ typedef std::array<Cell,50> mapRow;
 
 class Map {
 
-    private:
+    public:
 
-    ge::Data* data;
+    sf::Vector2i mousePosWin;
+    sf::Vector2f mousePosView;
+
+    Map();
+    ~Map();
+
+    std::array<std::array<Cell,50>,50>* getMap();
+
+    void update();
+    void render();
+
+private:
     
     sf::Texture cellTexture;
     sf::Sprite wallCell;
@@ -33,21 +44,5 @@ class Map {
     void initCells();
     void initMap();
 
-    public:
-
-    sf::Vector2i mousePosWin;
-    sf::Vector2f mousePosView;
-
-    Map(ge::Data *data);
-    ~Map();
-
-    std::array<std::array<Cell,50>,50>* getMap();
-
-    void updateMousePos();
-
-    void update();
-    void render();
-
-    
 
 };

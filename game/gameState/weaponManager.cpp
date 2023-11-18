@@ -9,17 +9,16 @@ void weaponManager::initWeapons()
 {
     rifle.firerate = 200;
     rifle.weaponSprite.setPosition(100.f,100.f);
-    rifle.weaponSprite.setTexture(data->texture.getResource("mainTexture")[0]);
+    rifle.weaponSprite.setTexture(ge::data.texture.getResource("mainTexture")[0]);
     rifle.weaponSprite.setTextureRect(sf::IntRect(0,70,40,17));
-    rifle.bullet.setTexture(data->texture.getResource("mainTexture")[0]);
+    rifle.bullet.setTexture(ge::data.texture.getResource("mainTexture")[0]);
     rifle.bullet.setTextureRect(sf::IntRect(0,119,7,4));
     rifle.weaponSprite.setOrigin(8,9);
     weapons.push_back(rifle);
 }
 
-weaponManager::weaponManager(ge::Data* data, Map* map)
+weaponManager::weaponManager(Map* map)
 {
-    this->data = data;
     this->map = map;
     initWeapons();
 }
@@ -72,21 +71,23 @@ void weaponManager::setHold(weaponStruct weapon,bool isHeld)
 
 void weaponManager::updateWeaponAngle(weaponStruct &weapon)
 {
-    if (weapon.angle <= 90.f && weapon.angle >= -90.f) {
-            weapon.weaponSprite.setTextureRect(sf::IntRect(0,70,40,15));
-        } else {
-            weapon.weaponSprite.setTextureRect(sf::IntRect(40,70,40,15));
-        }
-        if (weapon.held) {
+    if (weapon.held) {
             weapon.weaponSprite.setRotation(weapon.angle);
+            if (weapon.angle <= 90.f && weapon.angle >= -90.f) {
+                    weapon.weaponSprite.setTextureRect(sf::IntRect(0,70,40,15));
+            } else {
+                weapon.weaponSprite.setTextureRect(sf::IntRect(40,70,40,15));
+            }   
         }
+    
+        
 }
 
 void weaponManager::updateWeaponState(weaponStruct &weapon)
 {
     if (weapon.held) {
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && weapon.held) {
-            sf::Vector2f MPV = ge::getMousePosView(data);
+            sf::Vector2f MPV = ge::getMousePosView(&ge::data);
             shoot(&weapon, MPV);
         }
     }
@@ -131,7 +132,7 @@ void weaponManager::render()
 {
     for (weaponStruct &weapon : weapons) {
         for ( sf::Sprite &i : weapon.bullets) {
-            data->win.draw(i);
+            ge::data.win.draw(i);
         }
     }
 }

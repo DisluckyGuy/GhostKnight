@@ -1,5 +1,7 @@
 #include "Game.hpp"
 
+//ge::Data ge::data;
+
 void Game::initVariables()
 {
     idleAnimation = false;
@@ -57,7 +59,7 @@ void Game::renderMap()
 {
     for (std::array<Cell,50> &i : *map->getMap()) {
         for (Cell &j : i) {
-            data->win.draw(j.sprite);
+            ge::data.win.draw(j.sprite);
         }
     }
 }
@@ -75,19 +77,18 @@ void Game::renderBullets()
 void Game::update()
 {
     map->update();
-    map->updateMousePos();
     player->update();
     weapons->update();
-    updateViews();
+    //updateViews();
 }
 
 void Game::render()
 {
     map->render();
     if (!weapons->getWeapon(0)->held) 
-        data->win.draw(weapons->getWeapons()->begin()->weaponSprite);
+        ge::data.win.draw(weapons->getWeapons()->begin()->weaponSprite);
     player->render();
     if (weapons->getWeapon(0)->held) 
-        data->win.draw(weapons->getWeapon(0)->weaponSprite);
+        ge::data.win.draw(weapons->getWeapon(0)->weaponSprite);
     weapons->render();
 }

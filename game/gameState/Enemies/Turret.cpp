@@ -30,13 +30,12 @@ void Turret::updateBullets()
     }
 }
 
-Turret::Turret(ge::Data *data, Map *map, sf::Sprite* target)
+Turret::Turret(Map *map, sf::Sprite* target)
 {
-    this->data = data;
     this->map = map;
     this->target = target;
     fireRate = 200;
-    bulletVelocity = 6; 
+    bulletVelocity = 6;
     distanceMin = 500;
 }
 
@@ -80,9 +79,9 @@ void Turret::update()
 
 void Turret::render()
 {
-    data->win.draw(base);
-    data->win.draw(head);
+    ge::data.win.draw(base);
+    ge::data.win.draw(head);
     for (Bullet &b : bullets) {
-        data->win.draw(b.sprite);
+        ge::data.win.draw(b.sprite);
     }
 }

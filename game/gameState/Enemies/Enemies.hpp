@@ -2,17 +2,28 @@
 
 #include <vector>
 #include <iostream>
-#include "../../ge/ge.hpp"
+#include "../../../cppGameEngine/ge.hpp"
 #include "../weaponManager.hpp"
 #include "../map.hpp"
 #include "Turret.hpp"
 
 class Enemies {
 
+    public:
+
+    Enemies(weaponManager* weapons, Map* map, sf::Sprite* target);
+
+    void setTarget(sf::Sprite* target);
+
+    void getTurret(int index);
+    void getTurrets();
+
+    void update();
+    void render();
+
     private:
 
     Map* map;
-    ge::Data* data;
     Turret turret;
     std::vector<Turret> turrets;
     sf::Sprite* target;
@@ -24,17 +35,6 @@ class Enemies {
     int maxTurrets;
 
     void initTurret();
-
-    public:
-
-    Enemies(ge::Data* data, weaponManager* weapons, Map* map, sf::Sprite* target);
-
-    void setTarget(sf::Sprite* target);
-
-    void getTurret(int index);
-    void getTurrets();
-
-    void update();
-    void render();
+    void spawnTurrets(Turret &turret, int amount);
 
 };

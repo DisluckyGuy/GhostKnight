@@ -1,5 +1,5 @@
 #pragma once
-#include "../ge/ge.hpp"
+#include "../../cppGameEngine/ge.hpp"
 #include <vector>
 #include "map.hpp"
 
@@ -18,24 +18,9 @@ struct weaponStruct
 };
 class weaponManager {
 
-    private:
-
-    ge::Data* data;
-    Map* map;
-    bool EHeld;
-
-    
-    
-    weaponStruct rifle;
-    std::vector<weaponStruct> weapons;
-
-
-    void initVariables();
-    void initWeapons();
-
     public:
 
-    weaponManager(ge::Data* data, Map* map);
+    weaponManager(Map* map);
     ~weaponManager();
     sf::Texture rifleTexture;
     std::vector<weaponStruct>* getWeapons();
@@ -53,4 +38,19 @@ class weaponManager {
 
     void update();
     void render();
+
+    private:
+
+    Map* map;
+    bool EHeld;
+
+    
+    
+    weaponStruct rifle;
+    std::vector<weaponStruct> weapons;
+
+
+    void initVariables();
+    void initWeapons();
+
 };

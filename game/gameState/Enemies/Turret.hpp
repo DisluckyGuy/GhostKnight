@@ -2,33 +2,17 @@
 
 #include <vector>
 #include <iostream>
-#include "../../ge/ge.hpp"
+#include "../../../cppGameEngine/ge.hpp"
 #include "../weaponManager.hpp"
 #include "../map.hpp"
 
 
-    
+struct Bullet {
+    sf::Sprite sprite;
+    sf::Vector2f velocity;
+};    
 
 class Turret {
-
-    private:
-
-    struct Bullet {
-        sf::Sprite sprite;
-        sf::Vector2f velocity;
-    };
-
-    ge::Data* data;
-    Map* map;
-    
-    unsigned int bulletVelocity;
-    unsigned int fireRate;
-    unsigned int distanceMin;
-    float distX;
-    float distY;
-
-    void updateHead(sf::Sprite *target);
-    void updateBullets();
 
     public:
 
@@ -40,7 +24,7 @@ class Turret {
     Bullet bullet;
     std::vector<Bullet> bullets;
     
-    Turret(ge::Data* data, Map* map, sf::Sprite* target);
+    Turret(Map* map, sf::Sprite* target);
     ~Turret();
 
     void init(sf::Sprite base, sf::Sprite head, sf::Sprite bullet);
@@ -49,5 +33,18 @@ class Turret {
 
     void update();
     void render();
+
+    private:
+
+    Map* map;
+    
+    unsigned int bulletVelocity;
+    unsigned int fireRate;
+    unsigned int distanceMin;
+    float distX;
+    float distY;
+
+    void updateHead(sf::Sprite *target);
+    void updateBullets();
 
 };

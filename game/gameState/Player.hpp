@@ -7,7 +7,7 @@
 #include <iostream>
 #include "weaponManager.hpp"
 #include "Enemies/Enemies.hpp"
-#include "../ge/ge.hpp"
+#include "../../cppGameEngine/ge.hpp"
 #include "map.hpp"
 
 enum weaponState {
@@ -17,14 +17,28 @@ enum weaponState {
 
 class Player
 {
+    
+public:
+
+    Player(Map* map, weaponManager* weapons);
+    ~Player();
+
+    sf::Sprite* getPlayer();
+    float getVelocity();
+
+    void checkCollisions();
+    void updateWeaponAngle();
+    void checkInputs();
+    void updatePlayer();
+    void renderPlayer();
+    void updateWeapons();
+    void renderWeapons();
+
+    void update();
+    void render();
+
 private:
 
-    //private variables
-
-
-
-    
-    ge::Data* data;
     Map* map;
     weaponManager* weapons;
     Enemies enemies;
@@ -48,23 +62,4 @@ private:
 
     void initVariables();
     void initPlayer();
-
-public:
-
-    Player(ge::Data* data, Map* map, weaponManager* weapons);
-    ~Player();
-
-    sf::Sprite* getPlayer();
-    float getVelocity();
-
-    void checkCollisions();
-    void updateWeaponAngle();
-    void checkInputs();
-    void updatePlayer();
-    void renderPlayer();
-    void updateWeapons();
-    void renderWeapons();
-
-    void update();
-    void render();
 };

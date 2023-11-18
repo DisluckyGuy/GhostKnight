@@ -1,5 +1,6 @@
 #include "map.hpp"
 
+ge::Data ge::data;
 void Map::initCells()
 {
     wallCell.setTexture(cellTexture);
@@ -32,12 +33,11 @@ void Map::initMap()
             }
         }
     }
-    cellTexture = data->texture.getResource("mainTexture")[0];
+    cellTexture = ge::data.texture.getResource("mainTexture")[0];
 }
 
-Map::Map(ge::Data *data)
+Map::Map()
 {
-    this->data = data;
     initCells();
     initMap();
 }
@@ -51,12 +51,6 @@ std::array<std::array<Cell,50>,50>* Map::getMap()
     return &mapArr;
 }
 
-void Map::updateMousePos()
-{
-    mousePosWin = sf::Mouse::getPosition();
-    mousePosView = data->win.mapPixelToCoords(mousePosWin);
-}
-
 void Map::update()
 {
 }
@@ -65,7 +59,7 @@ void Map::render()
 {
     for (mapRow &i : mapArr) {
         for (Cell &j : i) {
-            data->win.draw(j.sprite);
+            ge::data.win.draw(j.sprite);
         }
     }
 }

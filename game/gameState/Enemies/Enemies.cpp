@@ -3,7 +3,7 @@
 void Enemies::initTurret()
 {
     maxTurrets = 7;
-    enemyTexture = data->texture.getResource("enemyTexture")[0];
+    enemyTexture = ge::data.texture.getResource("enemyTexture")[0];
     turretBase.setTexture(enemyTexture);
     turretBase.setTextureRect(sf::IntRect(0,0,30,30));
     turretHead.setTexture(enemyTexture);
@@ -11,17 +11,27 @@ void Enemies::initTurret()
     turretBullet.setTexture(enemyTexture);
     turretBullet.setTextureRect(sf::IntRect(30,18,12,7));
     turret.init(turretBase, turretHead, turretBullet);
-    for (int i = 0; i < 2; i++) {
-        turret.base.setPosition(30 + ((rand() % 48) * 30) ,30 + ((rand() % 48) * 30));
+    spawnTurrets(turret, maxTurrets);
+}
+
+void Enemies::spawnTurrets(Turret &turret, int amount)
+{
+    std::vector<sf::Vector2f> repeatedPos;
+    repeatedPos.push_back(turret.base.getPosition());
+    for (int i = 0; i < amount; i++) {
+        for (sf::Vector2f pos : repeatedPos) {
+            do {
+                turret.base.setPosition(30 + ((rand() % 48) * 30) ,30 + ((rand() % 48) * 30));
+            } while (pos == turret.base.getPosition());
+        }
+        repeatedPos.push_back(turret.base.getPosition());
         turret.head.setPosition(turret.base.getPosition().x + turret.base.getGlobalBounds().width / 2, turret.base.getPosition().y + turret.base.getGlobalBounds().height / 2);
         turrets.push_back(turret);
     }
 }
 
-Enemies::Enemies(ge::Data* data, weaponManager* weapons, Map* map, sf::Sprite* target) : turret(data, map, target)
+Enemies::Enemies(weaponManager* weapons, Map* map, sf::Sprite* target) : turret(map, target)
 {
-    
-    this->data = data;
     this->map = map;
     this->weapons = weapons;
     this->target = target;
