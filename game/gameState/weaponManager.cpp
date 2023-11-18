@@ -26,8 +26,6 @@ weaponManager::weaponManager(ge::Data* data, Map* map)
 
 weaponManager::~weaponManager()
 {
-    delete this->data;
-    delete this->map;
 }
 std::vector<weaponStruct> *weaponManager::getWeapons()
 {

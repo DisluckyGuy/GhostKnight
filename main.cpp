@@ -13,6 +13,7 @@ int main(int argc, char const *argv[]) {
     ge::read(data, "game/ge/.res/main.config");
     data->state.addState(new Game(data));
     Run(data);
+    delete data;
     return 0;
 
 }

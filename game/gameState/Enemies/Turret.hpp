@@ -18,8 +18,9 @@ class Turret {
         sf::Vector2f velocity;
     };
 
-    Map* map;
     ge::Data* data;
+    Map* map;
+    
     unsigned int bulletVelocity;
     unsigned int fireRate;
     unsigned int distanceMin;

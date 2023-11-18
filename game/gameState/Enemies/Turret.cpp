@@ -42,11 +42,6 @@ Turret::Turret(ge::Data *data, Map *map, sf::Sprite* target)
 
 Turret::~Turret()
 {
-    delete this->target;
-    delete this->data;
-    delete this->map;
-    
-    
 }
 
 void Turret::init(sf::Sprite base, sf::Sprite head, sf::Sprite bullet)

@@ -42,8 +42,8 @@ Map::Map(ge::Data *data)
     initMap();
 }
 
-Map::~Map() {
-    delete this->data;
+Map::~Map() 
+{
 }
 
 std::array<std::array<Cell,50>,50>* Map::getMap()

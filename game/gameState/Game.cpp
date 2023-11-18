@@ -27,7 +27,6 @@ Game::Game(ge::Data *data): ge::State(data)
 
 Game::~Game()
 {
-    delete this->data;
     delete this->map;
     delete this->weapons;
     delete this->player;

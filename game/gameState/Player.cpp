@@ -35,9 +35,6 @@ Player::Player(ge::Data* data, Map* map, weaponManager* weapons) : enemies(data,
 
 Player::~Player()
 {
-    delete this->data;
-    delete this->map;
-    delete this->weapons;
 }
 
 sf::Sprite *Player::getPlayer()
