@@ -21,6 +21,7 @@ class Turret {
     sf::Sprite base;
     sf::Sprite head;
     sf::Sprite* target;
+    int health;
     Bullet bullet;
     std::vector<Bullet> bullets;
     
@@ -29,7 +30,10 @@ class Turret {
 
     void init(sf::Sprite base, sf::Sprite head, sf::Sprite bullet);
 
+    void changeHealth(int change);
     void shoot();
+
+    void updateBullets();
 
     void update();
     void render();
@@ -44,7 +48,9 @@ class Turret {
     float distX;
     float distY;
 
+    
+
     void updateHead(sf::Sprite *target);
-    void updateBullets();
+    
 
 };

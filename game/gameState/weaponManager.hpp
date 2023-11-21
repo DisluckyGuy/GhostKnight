@@ -6,6 +6,7 @@
 struct weaponStruct
 {
     float angle;
+    float bulletSpeed;
     sf::Vector2f bulletVelocity;
     unsigned int firerate;
     unsigned int velocity;
@@ -23,8 +24,10 @@ class weaponManager {
     weaponManager(Map* map);
     ~weaponManager();
     sf::Texture rifleTexture;
+
     std::vector<weaponStruct>* getWeapons();
     weaponStruct* getWeapon(unsigned int index);
+    std::vector<sf::Sprite>* getBullets(int index);
 
     void shoot(weaponStruct* weapon, sf::Vector2f &mousePosView);
     void setFirerate(weaponStruct& weapon,unsigned int rate);

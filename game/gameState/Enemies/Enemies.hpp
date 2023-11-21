@@ -15,8 +15,8 @@ class Enemies {
 
     void setTarget(sf::Sprite* target);
 
-    void getTurret(int index);
-    void getTurrets();
+    Turret* getTurret(int index);
+    std::vector<Turret>* getTurrets();
 
     void update();
     void render();

@@ -6,13 +6,11 @@ using namespace ge;
 
 int main(int argc, char const *argv[]) {
     srand(time(NULL));
-    //Data *data = new ge::Data;
     tools::toRadians(20);
-    createWindow(&ge::data, 1650, 1050, "temp");
-    ge::read(&ge::data, "cppGameEngine/.res/main.config");
+    createWindow(&ge::data, 1280, 720, "temp");
+    ge::read(&ge::data, "../.res/main.config");
     data.state.addState(new Game(&ge::data));
     Run(&ge::data);
-    //delete ge::data;
     return 0;
 
 }

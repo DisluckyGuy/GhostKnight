@@ -33,22 +33,19 @@ public:
 private:
     
     //private variables
+
     typedef std::array<std::pair<sf::Sprite,cellType>,50> mapRow;
     typedef std::pair<sf::Sprite,cellType> mapPair;
-    //View mainView;
+
+    sf::View playerView;
     sf::Event event;
     Map* map = new Map();
     weaponManager* weapons = new weaponManager(map);
-    Player* player = new Player(/*data,*/ map, weapons);
-    
+    Player* player = new Player(map, weapons);
 
-    sf::CircleShape bullet;
-    int fireRate;
-    float bulletSpeed;
-    bool idleAnimation;
     //private functions
+    
     void initVariables();
     void initViews();
-    void initBullets();
 };
 

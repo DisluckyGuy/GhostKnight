@@ -1,5 +1,10 @@
 #include "Turret.hpp"
 
+void Turret::changeHealth(int change)
+{
+    health += change;
+}
+
 void Turret::updateHead(sf::Sprite *target)
 {
     float angle = ge::tools::findAngle(head, *target);
@@ -10,12 +15,7 @@ void Turret::updateHead(sf::Sprite *target)
 
 void Turret::updateBullets()
 {
-    for (int i = 0; i < bullets.size(); i++) {
-        bullets[i].sprite.move(bullets[i].velocity);
-        if (bullets[i].sprite.getGlobalBounds().intersects(target->getGlobalBounds())) {
-            bullets.erase(bullets.begin() + i);
-        }
-    }
+    
     for (std::array<Cell,50> &row : *map->getMap()) {
         for (Cell &cell : row) {
             if (cell.type == cellType::Wall) {
@@ -28,12 +28,19 @@ void Turret::updateBullets()
             }
         }
     }
+    for (int i = 0; i < bullets.size(); i++) {
+        if (bullets[i].sprite.getGlobalBounds().intersects(target->getGlobalBounds())) {
+            bullets.erase(bullets.begin() + i);
+        }
+        bullets[i].sprite.move(bullets[i].velocity);
+    }
 }
 
 Turret::Turret(Map *map, sf::Sprite* target)
 {
     this->map = map;
     this->target = target;
+    health = 10;
     fireRate = 200;
     bulletVelocity = 6;
     distanceMin = 500;
@@ -54,7 +61,8 @@ void Turret::init(sf::Sprite base, sf::Sprite head, sf::Sprite bullet)
 void Turret::shoot()
 {
     if (fireClock.getElapsedTime().asMilliseconds() >= fireRate) {
-        float angle = ge::tools::findAngle(head, *target);
+        sf::Vector2f center = sf::Vector2f(target->getPosition().x + target->getGlobalBounds().width / 2, target->getPosition().y + target->getGlobalBounds().height / 2);
+        float angle = ge::tools::findAngle(head, center);
         sf::Vector2f velocity = ge::tools::findVelocity(ge::tools::toRadians(angle), bulletVelocity);
         bullet.sprite.setPosition(head.getPosition().x + velocity.x * 2, head.getPosition().y + velocity.y * 2);
         bullet.sprite.setRotation(angle);
@@ -66,15 +74,14 @@ void Turret::shoot()
 
 void Turret::update()
 {
+    
     updateHead(target);
-    updateBullets();
     distX = abs(target->getPosition().x - head.getPosition().x);
     distY = abs(target->getPosition().y - head.getPosition().y);
     if (distX < distanceMin && distY < distanceMin) {
         shoot();
     }
-
-    
+    updateBullets();
 }
 
 void Turret::render()

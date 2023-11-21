@@ -4,27 +4,21 @@
 
 void Game::initVariables()
 {
-    idleAnimation = false;
 }
 
 void Game::initViews()
 {
-
-}
-
-void Game::initBullets()
-{
-    fireRate = 100;
-    bulletSpeed = 8;
-    bullet.setFillColor(sf::Color::Yellow);
-    bullet.setRadius(3);
+    sf::Sprite* playerSprite = player->getPlayer();
+    playerView.setSize(sf::Vector2f(1280, 720));
+    playerView.setCenter(playerSprite->getPosition().x + playerSprite->getGlobalBounds().width / 2, 
+    playerSprite->getPosition().y + playerSprite->getGlobalBounds().height / 2);
+    ge::data.win.setView(playerView);
 }
 
 Game::Game(ge::Data *data): ge::State(data)
 {
     initViews();
     initVariables();
-    initBullets();
 }
 
 Game::~Game()
@@ -37,6 +31,18 @@ Game::~Game()
 
 void Game::updateViews()
 {
+    sf::Sprite* playerSprite = player->getPlayer();
+    playerView.setCenter((playerSprite->getPosition().x + playerSprite->getGlobalBounds().width / 2), 
+    (playerSprite->getPosition().y + playerSprite->getGlobalBounds().height / 2));
+    ge::data.win.setView(playerView);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::F11)) {
+        if (ge::data.win.getSize() == sf::Vector2u(sf::VideoMode::getFullscreenModes()[0].width, sf::VideoMode::getFullscreenModes()[0].height)) {
+            ge::createWindow(&ge::data, 1280, 720, "temp");
+        } else {
+             ge::createFullScreenWindow(&ge::data, "test");
+        }
+       
+    }
 }
 
 
@@ -79,7 +85,8 @@ void Game::update()
     map->update();
     player->update();
     weapons->update();
-    //updateViews();
+    updateViews();
+    player->updateHealthBar();
 }
 
 void Game::render()

@@ -7,7 +7,8 @@ void weaponManager::initVariables()
 
 void weaponManager::initWeapons()
 {
-    rifle.firerate = 200;
+    rifle.firerate = 100;
+    rifle.bulletSpeed = 7;
     rifle.weaponSprite.setPosition(100.f,100.f);
     rifle.weaponSprite.setTexture(ge::data.texture.getResource("mainTexture")[0]);
     rifle.weaponSprite.setTextureRect(sf::IntRect(0,70,40,17));
@@ -36,14 +37,19 @@ weaponStruct *weaponManager::getWeapon(unsigned int index)
     return &weapons[index];
 }
 
+std::vector<sf::Sprite> *weaponManager::getBullets(int index)
+{
+    return &weapons[index].bullets;
+}
+
 void weaponManager::shoot(weaponStruct* weapon, sf::Vector2f &mousePosView)
 {
     if (weapon->elapsed.getElapsedTime().asMilliseconds() >= weapon->firerate) {
         weapon->elapsed.restart();
         weapon->bullet.setRotation(weapon->weaponSprite.getRotation());
         weapon->bullet.setPosition(weapon->weaponSprite.getPosition());
-        float VelocityX = ge::tools::findVelocity(ge::tools::toRadians(ge::tools::findAngle(weapon->weaponSprite, mousePosView)), 5).x;
-        float VelocityY = ge::tools::findVelocity(ge::tools::toRadians(ge::tools::findAngle(weapon->weaponSprite, mousePosView)), 5).y;
+        float VelocityX = ge::tools::findVelocity(ge::tools::toRadians(ge::tools::findAngle(weapon->weaponSprite, mousePosView)), weapon->bulletSpeed).x;
+        float VelocityY = ge::tools::findVelocity(ge::tools::toRadians(ge::tools::findAngle(weapon->weaponSprite, mousePosView)), weapon->bulletSpeed).y;
         weapon->Velocities.push_back(sf::Vector2f(VelocityX, VelocityY));
         weapon->bullets.push_back(weapon->bullet);
     }

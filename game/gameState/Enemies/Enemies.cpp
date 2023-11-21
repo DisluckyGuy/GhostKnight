@@ -2,7 +2,7 @@
 
 void Enemies::initTurret()
 {
-    maxTurrets = 7;
+    maxTurrets = 6;
     enemyTexture = ge::data.texture.getResource("enemyTexture")[0];
     turretBase.setTexture(enemyTexture);
     turretBase.setTextureRect(sf::IntRect(0,0,30,30));
@@ -41,6 +41,16 @@ Enemies::Enemies(weaponManager* weapons, Map* map, sf::Sprite* target) : turret(
 void Enemies::setTarget(sf::Sprite *target)
 {
     this->target = target;
+}
+
+Turret* Enemies::getTurret(int index)
+{
+    return &turrets[index];
+}
+
+std::vector<Turret>* Enemies::getTurrets()
+{
+    return &turrets;
 }
 
 void Enemies::update()
