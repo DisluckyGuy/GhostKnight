@@ -1,7 +1,5 @@
 #include "Player.hpp"
 
-//ge::Data ge::data;
-
 void Player::initVariables()
 {
     playerAnimation.setSprite(&player);
@@ -10,6 +8,7 @@ void Player::initVariables()
     playerAnimation.addFrame(sf::IntRect(70,0,35,50), 200);
     playerAnimation.addFrame(sf::IntRect(35,0,35,50), 100);
     playerRect = sf::IntRect(0,0,35,50);
+    alive = true;
     maxHealth = 5;
     maxShield = 5;
     health = maxHealth;
@@ -17,7 +16,6 @@ void Player::initVariables()
     velocity = 2.f;
     EHeld = false;
     walkRate = 300;
-    leftDown = false;
     playerWeaponTexture = ge::data.texture.getResource("mainTexture")[0];
 }
 
@@ -229,6 +227,13 @@ void Player::updatePlayer()
 {
     checkInputs();
     checkCollisions();
+    if (health <= 0) {
+        alive = false;
+        player.setTextureRect(sf::IntRect(140,0,50,35));
+        for (weaponStruct &weapon : *weapons->getWeapons()) {
+            weapon.held = false;
+        }
+    }
 }
 
 void Player::updateWeapons()
@@ -250,10 +255,6 @@ void Player::updateWeapons()
     } else {
         EHeld = false;
     }
-}
-
-void Player::renderWeapons()
-{
 }
 
 void Player::updateHealthBar()
@@ -291,6 +292,9 @@ void Player::renderPlayer()
 
 void Player::update()
 {
+    if (!alive) {
+        return;
+    }
     updatePlayer();
     updateWeapons();
     enemies.update();

@@ -29,7 +29,6 @@ public:
     void updatePlayer();
     void renderPlayer();
     void updateWeapons();
-    void renderWeapons();
     void updateHealthBar();
     void renderHealthBar();
 
@@ -59,8 +58,8 @@ private:
     std::vector<sf::RectangleShape> shieldVec;
     bool EHeld;
     int walkRate;
-    bool leftDown;
     bool playerMoving;
+    bool alive;
     
 
     //private functions 
