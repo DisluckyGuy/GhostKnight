@@ -1,3 +1,3 @@
-build
-.vscode
-game\compiled
+/build
+/.vscode
+/game\compiled
