@@ -87,6 +87,7 @@ void Game::update()
     weapons->update();
     updateViews();
     player->updateHealthBar();
+
 }
 
 void Game::render()

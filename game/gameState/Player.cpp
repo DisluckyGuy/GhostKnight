@@ -55,21 +55,28 @@ void Player::checkBulletCollisions()
 {
     std::vector<weaponStruct>* weaponsVec = weapons->getWeapons();
     
-    
-    for (int i = 0; i < enemies.getTurrets()->size(); i++) {
-        for (int j = 0; j < weaponsVec->size(); j++) {
+    for (int i = 0; i < weaponsVec->size(); i++) {
+        for (int j = 0; j < enemies.getTurrets()->size(); j++) {
 
-            for (int k = 0; k < weapons->getWeapon(j)->bullets.size(); k++) {
-                if (enemies.getTurret(i)->base.getGlobalBounds().intersects(weapons->getWeapon(j)->bullets[k].getGlobalBounds())) {
-                    weapons->getWeapon(j)->bullets.erase(weapons->getWeapon(j)->bullets.begin() + k);
-                    weapons->getWeapon(j)->Velocities.erase(weapons->getWeapon(j)->Velocities.begin() + k);
-                    enemies.getTurret(i)->changeHealth(-2);
+            for (int k = 0; k < weapons->getWeapon(i)->bullets.size(); k++) {
+                if (enemies.getTurret(j)->base.getGlobalBounds().intersects(weapons->getWeapon(i)->bullets[k].getGlobalBounds()) && 
+                enemies.getTurret(j)->alive) {
+                    weapons->getWeapon(i)->bullets.erase(weapons->getWeapon(i)->bullets.begin() + k);
+                    weapons->getWeapon(i)->Velocities.erase(weapons->getWeapon(i)->Velocities.begin() + k);
+                    enemies.getTurret(j)->changeHealth(-2);
                 }
             }
-            
         }
-        if (enemies.getTurret(i)->health <= 0) {
-            enemies.getTurrets()->erase(enemies.getTurrets()->begin() + i);
+        for (int j = 0; j < enemies.getMonsters()->size(); j++) {
+
+            for (int k = 0; k < weapons->getWeapon(i)->bullets.size(); k++) {
+                if (enemies.getMonster(j)->sprite.getGlobalBounds().intersects(weapons->getWeapon(i)->bullets[k].getGlobalBounds()) && 
+                enemies.getMonster(j)->alive) {
+                    weapons->getWeapon(i)->bullets.erase(weapons->getWeapon(i)->bullets.begin() + k);
+                    weapons->getWeapon(i)->Velocities.erase(weapons->getWeapon(i)->Velocities.begin() + k);
+                    enemies.getMonster(j)->changeHealth(-2);
+                }
+            }
         }
     }
 
@@ -83,6 +90,19 @@ void Player::checkBulletCollisions()
                         health -= 1;
                     }
                     shieldRegen.restart();
+                }
+            }
+        }
+    }
+
+    for (Monster monster : *enemies.getMonsters()) {
+        if (player.getGlobalBounds().intersects(monster.sprite.getGlobalBounds())) {
+            if (damageCooldown.getElapsedTime().asMilliseconds() >= 1000) {
+                damageCooldown.restart();
+                if (shield > 0) {
+                    shield -= 3;
+                } else {
+                    health -= 3;
                 }
             }
         }

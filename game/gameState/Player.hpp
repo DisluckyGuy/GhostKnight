@@ -37,7 +37,7 @@ public:
     void render();
 
 private:
-
+    sf::Clock damageCooldown;
     Map* map;
     weaponManager* weapons;
     Enemies enemies;

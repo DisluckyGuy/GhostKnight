@@ -5,6 +5,7 @@
 using namespace ge;
 
 int main(int argc, char const *argv[]) {
+
     srand(time(NULL));
     tools::toRadians(20);
     createWindow(&ge::data, 1280, 720, "temp");

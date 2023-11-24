@@ -24,6 +24,7 @@ class Turret {
     int health;
     Bullet bullet;
     std::vector<Bullet> bullets;
+    bool alive;
     
     Turret(Map* map, sf::Sprite* target);
     ~Turret();

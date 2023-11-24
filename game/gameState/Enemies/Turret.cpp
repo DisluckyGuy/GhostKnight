@@ -44,6 +44,7 @@ Turret::Turret(Map *map, sf::Sprite* target)
     fireRate = 200;
     bulletVelocity = 6;
     distanceMin = 500;
+    alive = true;
 }
 
 Turret::~Turret()
@@ -74,14 +75,20 @@ void Turret::shoot()
 
 void Turret::update()
 {
-    
+    updateBullets();
+    if (!alive) {
+        return;
+    }
     updateHead(target);
     distX = abs(target->getPosition().x - head.getPosition().x);
     distY = abs(target->getPosition().y - head.getPosition().y);
     if (distX < distanceMin && distY < distanceMin) {
         shoot();
     }
-    updateBullets();
+    if (health <= 0) {
+        alive = false;
+        head.setTextureRect(sf::IntRect(84,36,24,17));
+    }
 }
 
 void Turret::render()

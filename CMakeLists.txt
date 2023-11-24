@@ -8,6 +8,7 @@ add_executable(GhostKight main.cpp
     game/gameState/Map.cpp
     game/gameState/Enemies/Enemies.cpp
     game/gameState/Enemies/Turret.cpp
+    game/gameState/Enemies/Monster.cpp
     )
 
 target_link_libraries(GhostKight PUBLIC sfml-system sfml-network sfml-graphics sfml-window)  
